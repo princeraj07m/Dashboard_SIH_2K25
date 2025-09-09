@@ -6,6 +6,7 @@ import { Health } from './health/health';
 import { Sprayer } from './sprayer/sprayer';
 import { Analytics } from './analytics/analytics';
 import { Setting } from './setting/setting';
+import { Users } from './users/users';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'setting',
     component: Setting
+  },
+  {
+    path: 'users',
+    component: Users
   }
 ];
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -11,15 +12,21 @@ export class Register{
 
   currentStep = 1;
   registerForm: FormGroup = new FormGroup({});
+  isLoading = false;
+  errorMessage = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {
     this.registerForm = this.fb.group({
     // Step 1: User Info
     fullName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     phone: ['', Validators.required],
-    language: ['', Validators.required],
+    communication: ['Email', Validators.required],
+    language: ['English', Validators.required],
 
     // Step 2: Farm Info
     farmName: ['', Validators.required],
@@ -61,6 +68,7 @@ export class Register{
         group['email'] = this.registerForm.get('email');
         group['password'] = this.registerForm.get('password');
         group['phone'] = this.registerForm.get('phone');
+        group['communication'] = this.registerForm.get('communication');
         group['language'] = this.registerForm.get('language');
         break;
       case 2:
@@ -118,6 +126,7 @@ export class Register{
                !!this.registerForm.get('email')?.valid &&
                !!this.registerForm.get('password')?.valid &&
                !!this.registerForm.get('phone')?.valid &&
+               !!this.registerForm.get('communication')?.valid &&
                !!this.registerForm.get('language')?.valid;
       case 2:
         return !!this.registerForm.get('farmName')?.valid &&
@@ -141,11 +150,59 @@ export class Register{
 
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
-      alert('Form Submitted Successfully!');
-      this.currentStep = 5; // Or navigate to a success page
+      this.isLoading = true;
+      this.errorMessage = '';
+      
+      const formData = this.registerForm.value;
+      
+      // Transform data to match backend expectations
+      const userData = {
+        ...formData,
+        // Convert strings to arrays where needed
+        primaryCrops: formData.primaryCrops ? formData.primaryCrops.split(',').map((crop: string) => crop.trim()) : [],
+        secondaryCrops: formData.secondaryCrops ? formData.secondaryCrops.split(',').map((crop: string) => crop.trim()) : [],
+        iotDevices: formData.iotDevices ? [formData.iotDevices.toString()] : [],
+        machinery: formData.machinery ? formData.machinery.split(',').map((machine: string) => machine.trim()) : [],
+        pesticides: formData.pesticides ? [{
+          name: formData.pesticides,
+          frequency: 'Monthly' // Default frequency
+        }] : [],
+        // Ensure numeric fields are numbers
+        farmSize: formData.farmSize ? Number(formData.farmSize) : 0,
+        monthlyExpenditure: formData.monthlyExpenditure ? Number(formData.monthlyExpenditure) : 0
+      };
+      
+      console.log('Sending user data to backend:', userData);
+      
+      this.authService.register(userData).subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          console.log('Registration successful:', response);
+          alert('Registration Successful! Welcome to the platform.');
+          this.authService.navigateToDashboard();
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.errorMessage = error.message || 'Registration failed. Please try again.';
+          console.error('Registration error:', error);
+        }
+      });
     } else {
+      this.markFormGroupTouched(this.registerForm);
       alert('Please fill all required fields.');
     }
+  }
+
+  getFieldError(fieldName: string): string {
+    const control = this.registerForm.get(fieldName);
+    if (control?.errors && control.touched) {
+      if (control.errors['required']) {
+        return `${fieldName} is required`;
+      }
+      if (control.errors['email']) {
+        return 'Please enter a valid email address';
+      }
+    }
+    return '';
   }
 }

@@ -8,6 +8,7 @@ import { Health } from './health/health';
 import { Sprayer } from './sprayer/sprayer';
 import { Analytics } from './analytics/analytics';
 import { Setting } from './setting/setting';
+import { Users } from './users/users';
 import { SharedModule } from '../shared/shared-module';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { SharedModule } from '../shared/shared-module';
     Sprayer,
     Analytics,
     Setting,
+    Users,
   ],
   imports: [
     CommonModule,

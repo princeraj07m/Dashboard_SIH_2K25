@@ -71,7 +71,7 @@ const userSchema = new mongoose.Schema({
   // Step 4: Equipment Info
   sprayerType: {
     type: String,
-    enum: ['Manual', 'Battery-powered', 'Fuel-powered', 'Tractor-mounted', 'Drone', 'None']
+    enum: ['Manual', 'Battery-powered', 'Fuel-powered', 'Tractor-mounted', 'Drone', 'Knapsack Sprayer', 'Backpack Sprayer', 'Handheld Sprayer', 'Pump Sprayer', 'Compression Sprayer', 'None']
   },
   iotDevices: [{
     type: String,

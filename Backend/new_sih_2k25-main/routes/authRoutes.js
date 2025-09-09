@@ -8,6 +8,7 @@ const router = express.Router();
 // Register route
 router.post('/register', async (req, res) => {
   try {
+    console.log('Received registration data:', JSON.stringify(req.body, null, 2));
     const {
       // Step 1: User Info
       fullName,
@@ -204,6 +205,27 @@ router.get('/profile', authMiddleware, async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Internal server error while fetching profile'
+    });
+  }
+});
+
+// Admin route to view all user data (for development/testing)
+router.get('/admin/users', async (req, res) => {
+  try {
+    const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+    
+    res.json({
+      success: true,
+      message: 'All users fetched successfully',
+      count: users.length,
+      users
+    });
+
+  } catch (error) {
+    console.error('Admin fetch users error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error while fetching users'
     });
   }
 });
