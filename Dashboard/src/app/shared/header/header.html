@@ -1,6 +1,6 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-md bg-white shadow-sm px-3 px-md-5 sticky-top" style="height: 75px;">
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center " routerLink="/pages/">
         <div class="logo-circle mx-auto me-2">
             <i class="fa-solid fa-leaf text-success"></i>
         </div>
@@ -16,15 +16,26 @@
     <!-- Desktop Menu -->
     <div class="collapse navbar-collapse justify-content-end d-none d-md-flex">
         <ul class="navbar-nav align-items-center">
-            <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" href="#">About</a></li>
-            <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" href="#">Features</a></li>
-            <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" href="#">Contact</a></li>
-            <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/auth/login">Login</a></li>
-            <li class="nav-item px-2">
-                <a class="btn btn-outline-success px-3 ms-2 rounded-pill shadow-sm" routerLink="/auth/register">
-                    Register
-                </a>
-            </li>
+            <li class="nav-item px-2"><a class="nav-link text-success fw-semibold"  routerLink="/pages/">Home</a></li>
+            <li class="nav-item px-2"><a class="nav-link text-success fw-semibold"  routerLink="/pages/about">About</a></li>
+            <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/features">Features</a></li>
+            <li class="nav-item px-2"><a class="nav-link text-success fw-semibold"  routerLink="/pages/contact">Contact</a></li>
+            <ng-container *ngIf="!isLoggedIn">
+                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/auth/login">Login</a></li>
+                <li class="nav-item px-2">
+                    <a class="btn btn-outline-success px-3 ms-2 rounded-pill shadow-sm" routerLink="/auth/register">
+                        Register
+                    </a>
+                </li>
+            </ng-container>
+            <ng-container *ngIf="isLoggedIn">
+                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" (click)="navigateToProfile()">Edit Profile</a></li>
+                <li class="nav-item px-2">
+                    <button class="btn btn-outline-danger px-3 ms-2 rounded-pill shadow-sm" (click)="logout()">
+                        Logout
+                    </button>
+                </li>
+            </ng-container>
 
         </ul>
     </div>
@@ -47,11 +58,20 @@
                 class="fa-solid fa-star me-2 text-success"></i> Features</a>
         <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" href="#"><i
                 class="fa-solid fa-envelope me-2 text-success"></i> Contact</a>
-        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/auth/login" data-bs-dismiss="offcanvas"><i
-                class="fa-solid fa-right-to-bracket me-2 text-success"></i> Login</a>
+        <ng-container *ngIf="!isLoggedIn">
+            <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/auth/login" data-bs-dismiss="offcanvas"><i
+                    class="fa-solid fa-right-to-bracket me-2 text-success"></i> Login</a>
 
-        <a class="btn btn-success text-white mt-3 w-100 rounded-pill shadow-sm py-2" routerLink="/auth/register" data-bs-dismiss="offcanvas">
-            <i class="fa-solid fa-user-plus me-2"></i> Register
-        </a>
+            <a class="btn btn-success text-white mt-3 w-100 rounded-pill shadow-sm py-2" routerLink="/auth/register" data-bs-dismiss="offcanvas">
+                <i class="fa-solid fa-user-plus me-2"></i> Register
+            </a>
+        </ng-container>
+        <ng-container *ngIf="isLoggedIn">
+            <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" (click)="navigateToProfile()" data-bs-dismiss="offcanvas"><i
+                    class="fa-solid fa-user-edit me-2 text-success"></i> Edit Profile</a>
+            <button class="btn btn-danger text-white mt-3 w-100 rounded-pill shadow-sm py-2" (click)="logout()" data-bs-dismiss="offcanvas">
+                <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
+            </button>
+        </ng-container>
     </div>
 </div>

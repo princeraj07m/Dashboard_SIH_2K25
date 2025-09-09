@@ -8,11 +8,26 @@ import { Analytics } from './analytics/analytics';
 import { Setting } from './setting/setting';
 import { Users } from './users/users';
 import { Profile } from './profile/profile';
+import { Features } from './features/features';
+import { Contact } from './contact/contact';
+import { About } from './about/about';
 
 const routes: Routes = [
   {
     path: '',
     component: Home
+  },
+  {
+    path: 'features',
+    component: Features
+  },
+  {
+    path: 'contact',
+    component: Contact
+  },
+  {
+    path: 'about',
+    component: About
   },
   {
     path: 'profile',
@@ -24,7 +39,7 @@ const routes: Routes = [
   },
   {
     path: 'health',
-    component: Health 
+    component: Health
   },
   {
     path: 'sprayer',
