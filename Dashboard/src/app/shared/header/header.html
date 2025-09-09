@@ -52,26 +52,50 @@
     </div>
 
     <div class="offcanvas-body d-flex flex-column gap-3">
-        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/pages/about"><i
-                class="fa-solid fa-circle-info me-2 text-success"></i> About</a>
-        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/pages/features"><i
-                class="fa-solid fa-star me-2 text-success"></i> Features</a>
-        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/pages/contact"><i
-                class="fa-solid fa-envelope me-2 text-success"></i> Contact</a>
-        <ng-container *ngIf="!isLoggedIn">
-            <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/auth/login" data-bs-dismiss="offcanvas"><i
-                    class="fa-solid fa-right-to-bracket me-2 text-success"></i> Login</a>
+  <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+     data-bs-dismiss="offcanvas"
+     routerLink="/pages/about">
+    <i class="fa-solid fa-circle-info me-2 text-success"></i> About
+  </a>
 
-            <a class="btn btn-success text-white mt-3 w-100 rounded-pill shadow-sm py-2" routerLink="/auth/register" data-bs-dismiss="offcanvas">
-                <i class="fa-solid fa-user-plus me-2"></i> Register
-            </a>
-        </ng-container>
-        <ng-container *ngIf="isLoggedIn">
-            <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" (click)="navigateToProfile()" data-bs-dismiss="offcanvas"><i
-                    class="fa-solid fa-user-edit me-2 text-success"></i> Edit Profile</a>
-            <button class="btn btn-danger text-white mt-3 w-100 rounded-pill shadow-sm py-2" (click)="logout()" data-bs-dismiss="offcanvas">
-                <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
-            </button>
-        </ng-container>
-    </div>
+  <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+     data-bs-dismiss="offcanvas"
+     routerLink="/pages/features">
+    <i class="fa-solid fa-star me-2 text-success"></i> Features
+  </a>
+
+  <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+     data-bs-dismiss="offcanvas"
+     routerLink="/pages/contact">
+    <i class="fa-solid fa-envelope me-2 text-success"></i> Contact
+  </a>
+
+  <ng-container *ngIf="!isLoggedIn">
+    <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+       data-bs-dismiss="offcanvas"
+       routerLink="/auth/login">
+      <i class="fa-solid fa-right-to-bracket me-2 text-success"></i> Login
+    </a>
+
+    <a class="btn btn-success text-white mt-3 w-100 rounded-pill shadow-sm py-2"
+       data-bs-dismiss="offcanvas"
+       routerLink="/auth/register">
+      <i class="fa-solid fa-user-plus me-2"></i> Register
+    </a>
+  </ng-container>
+
+  <ng-container *ngIf="isLoggedIn">
+    <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+       data-bs-dismiss="offcanvas"
+       (click)="navigateToProfile()">
+      <i class="fa-solid fa-user-edit me-2 text-success"></i> Edit Profile
+    </a>
+
+    <button class="btn btn-danger text-white mt-3 w-100 rounded-pill shadow-sm py-2"
+            (click)="logout()">
+      <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
+    </button>
+  </ng-container>
+</div>
+
 </div>
