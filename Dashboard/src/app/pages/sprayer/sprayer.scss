@@ -1,67 +1,113 @@
-
-
-h6, h5 {
-  margin: 0;
+/* Main Container */
+.sprayer-screen {
+  background: #f5f8f7;
+  border-radius: 16px;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.05);
+  padding: 25px;
 }
 
-/* Status Cards */
-.status-card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0px 3px 8px rgba(0,0,0,0.05);
-  text-align: center;
+.sprayer-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Map */
-.map-placeholder {
-  background: url('https://via.placeholder.com/600x300') no-repeat center/cover;
-  height: 200px;
-  border-radius: 12px;
+
+/* Heading */
+.sprayer-screen h5 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px !important;
 }
 
 /* Sprayer Cards */
 .sprayer-card {
-  background: #fff;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sprayer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Sprayer Title */
+.sprayer-card h6 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: #222;
+}
+
+/* Tank Info */
+.sprayer-card p {
+  margin: 5px 0;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Switch */
+.form-check-input {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Progress Bar */
+.progress {
+  height: 10px;
+  border-radius: 6px;
+  background: #e9ecef;
+}
+
+.progress-bar {
+  border-radius: 6px;
+  transition: width 0.4s ease;
+}
+
+/* Maintenance Text */
+.sprayer-card small {
+  font-size: 13px;
+  color: #888;
+}
+
+/* Button */
+.sprayer-screen .btn-success {
+  background: linear-gradient(135deg, #28a745, #34d058);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0px 4px 12px rgba(40, 167, 69, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sprayer-screen .btn-success:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 18px rgba(40, 167, 69, 0.6);
+}
+
+/* Alerts */
+.alert {
   border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0px 3px 8px rgba(0,0,0,0.05);
+  font-weight: 500;
+  font-size: 15px;
+  box-shadow: 0px 4px 12px rgba(255, 193, 7, 0.3);
 }
 
-/* Plant Cards */
-.plant-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0px 3px 8px rgba(0,0,0,0.05);
-}
-
-.plant-img {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-/* Bottom Navigation */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  padding: 10px 0;
-}
-
-.bottom-nav a {
-  text-decoration: none;
-  font-size: 14px;
-  color: #777;
-}
-
-.bottom-nav a.active {
-  color: #28a745;
-  font-weight: bold;
+.alert-warning {
+  background: #fff8e1;
+  color: #d9822b;
+  border: 1px solid #ffd45c;
 }

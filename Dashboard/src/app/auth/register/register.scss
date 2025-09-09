@@ -153,6 +153,7 @@ body {
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+
 /* Labels */
 .form-label {
   font-weight: 500;
@@ -304,3 +305,6 @@ body {
   border: 1px solid #dee2e6;
 }
 
+.equipment-card , .farm-card , .pesticide-card , .crop-card , .register-card {
+    padding: 0px;
+}
