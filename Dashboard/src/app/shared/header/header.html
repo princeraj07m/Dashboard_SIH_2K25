@@ -52,11 +52,11 @@
     </div>
 
     <div class="offcanvas-body d-flex flex-column gap-3">
-        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" href="#"><i
+        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/pages/about"><i
                 class="fa-solid fa-circle-info me-2 text-success"></i> About</a>
-        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" href="#"><i
+        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/pages/features"><i
                 class="fa-solid fa-star me-2 text-success"></i> Features</a>
-        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" href="#"><i
+        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/pages/contact"><i
                 class="fa-solid fa-envelope me-2 text-success"></i> Contact</a>
         <ng-container *ngIf="!isLoggedIn">
             <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" routerLink="/auth/login" data-bs-dismiss="offcanvas"><i
