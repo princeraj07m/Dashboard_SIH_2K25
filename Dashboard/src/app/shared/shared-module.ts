@@ -14,6 +14,10 @@ import { Footer } from './footer/footer';
   imports: [
     CommonModule,
     SharedRoutingModule
+  ],
+  exports: [
+    Header,
+    Footer
   ]
 })
 export class SharedModule { }

@@ -8,7 +8,7 @@ import { Health } from './health/health';
 import { Sprayer } from './sprayer/sprayer';
 import { Analytics } from './analytics/analytics';
 import { Setting } from './setting/setting';
-
+import { SharedModule } from '../shared/shared-module';
 
 @NgModule({
   declarations: [
@@ -17,11 +17,12 @@ import { Setting } from './setting/setting';
     Health,
     Sprayer,
     Analytics,
-    Setting
+    Setting,
   ],
   imports: [
     CommonModule,
-    PagesRoutingModule
+    PagesRoutingModule,
+    SharedModule
   ]
 })
 export class PagesModule { }

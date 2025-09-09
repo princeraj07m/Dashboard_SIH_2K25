@@ -1,1 +1,57 @@
-<p>header works!</p>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md bg-white shadow-sm px-5 sticky-top" style="height: 75px;">
+    <div class="d-flex align-items-center">
+        <div class="logo-circle mx-auto me-2">
+            <i class="fa-solid fa-leaf text-success"></i>
+        </div>
+        <span class="fw-bold text-success fs-4">FertiFarm</span>
+    </div>
+
+    <!-- Toggler Button for Offcanvas -->
+    <button class="navbar-toggler ms-auto d-md-none" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileMenu" aria-controls="mobileMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Desktop Menu -->
+    <div class="collapse navbar-collapse justify-content-end d-none d-md-flex">
+        <ul class="navbar-nav align-items-center">
+            <li class="nav-item"><a class="nav-link text-success fw-semibold" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link text-success fw-semibold" href="#">Features</a></li>
+            <li class="nav-item"><a class="nav-link text-success fw-semibold" href="#">Contact</a></li>
+            <li class="nav-item"><a class="nav-link text-success fw-semibold" href="#">Login</a></li>
+            <li class="nav-item">
+                <a class="btn btn-outline-success px-3 ms-2 rounded-pill shadow-sm" href="#">
+                    Register
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<!-- Offcanvas Left Sidebar -->
+<div class="offcanvas offcanvas-start rounded-end shadow-lg" tabindex="-1" id="mobileMenu"
+    aria-labelledby="mobileMenuLabel">
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title fw-bold text-success d-flex align-items-center" id="mobileMenuLabel">
+            <i class="fa-solid fa-leaf me-2"></i> FertiFarm
+        </h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body d-flex flex-column gap-3">
+        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" href="#"><i
+                class="fa-solid fa-circle-info me-2 text-success"></i> About</a>
+        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" href="#"><i
+                class="fa-solid fa-star me-2 text-success"></i> Features</a>
+        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" href="#"><i
+                class="fa-solid fa-envelope me-2 text-success"></i> Contact</a>
+        <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg" href="#"><i
+                class="fa-solid fa-right-to-bracket me-2 text-success"></i> Login</a>
+
+        <a class="btn btn-success text-white mt-3 w-100 rounded-pill shadow-sm py-2" href="#">
+            <i class="fa-solid fa-user-plus me-2"></i> Register
+        </a>
+    </div>
+</div>
