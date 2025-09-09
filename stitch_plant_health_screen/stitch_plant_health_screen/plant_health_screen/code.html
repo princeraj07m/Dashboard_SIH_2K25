@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --c-green-50: #f0fdf4;
+        --c-green-100: #dcfce7;
+        --c-green-500: #22c55e;
+        --c-green-600: #16a34a;
+        --c-green-700: #15803d;
+        --c-yellow-500: #eab308;
+        --c-red-500: #ef4444;
+      }
+      .infection-badge-low {
+        @apply bg-green-100 text-green-700;
+      }
+      .infection-badge-medium {
+        @apply bg-yellow-100 text-yellow-700;
+      }
+      .infection-badge-high {
+        @apply bg-red-100 text-red-700;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#F8F9FA]">
+<div class="relative flex size-full min-h-screen flex-col justify-between group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+<div class="flex flex-col">
+<header class="flex items-center bg-white p-4 justify-between sticky top-0 z-10 shadow-sm">
+<button class="text-gray-700 flex size-10 shrink-0 items-center justify-center rounded-full hover:bg-gray-100">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-gray-900 text-xl font-bold leading-tight tracking-tight flex-1 text-center pr-10">Plant Health</h1>
+</header>
+<main class="flex-1 px-4 pt-6 pb-20">
+<div class="space-y-4">
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+<div class="flex items-center p-4">
+<img alt="Plant 001" class="rounded-lg size-16 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn0p9biFBF1dvd6Mbu--ywx1uufh2b6owdAPeueMBb3RFbli8VYfJujI1zJSzVUm_Zl1pUSijMPFmBEsoLZshfLJHjTdO1XhiO5H8zZuw_5m0ajCLobjH5ocrm7PCiJ44EQ3ssZMuEfbIP83vf1vd9nSjyrow3Ny5d3oV2Qfa4TgeXAExbktifcNTJToPB59ipozefafeGy24R2j3dZ3Sn98Nwrg_VpAloUzjMGtAG-mh_C8wd-btnUU_qXGN-u_QLOV-SN_uiYwd1"/>
+<div class="ml-4 flex-1">
+<p class="text-gray-800 text-base font-semibold">Plant ID: 001</p>
+<p class="text-gray-500 text-sm">Location: Field A</p>
+<p class="text-gray-500 text-sm">Last Spray: 2024-05-20</p>
+</div>
+<div class="flex flex-col items-end space-y-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium infection-badge-low">
+                    Healthy
+                  </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                    Low Infection
+                  </span>
+</div>
+</div>
+<div class="border-t border-gray-200 px-4 py-3 flex justify-end space-x-2">
+<button class="text-sm font-medium text-gray-700 py-1.5 px-3 rounded-md hover:bg-gray-100">View Details</button>
+<button class="text-sm font-medium text-white bg-[var(--c-green-600)] py-1.5 px-3 rounded-md hover:bg-[var(--c-green-700)]">Spray Now</button>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+<div class="flex items-center p-4">
+<img alt="Plant 002" class="rounded-lg size-16 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMYlk3MCvWZ1qa3LcVeox9AnlBPB-kShpNoyCqdJOVliqn8p_5QeZNn4YCq28j58hwYwVjSyD9PgmfoCiGmNvTwm_JLrn_SaAGiAHtR8Af9xINUlS6HIwJZAlOG7Xqg5oSLxFYbC5mPqzHKe81vQd4mFUaD8ZeTRitMXtHPVM2mCgwjhjn8GmK7q5P8IoFsYxSL24BxnjusasRKPhZ8B54mOocZHhVHmT3xh0AIvYLmTkXADz64BdFbmaO-oE4VdS-YJzQMx_gkaMH"/>
+<div class="ml-4 flex-1">
+<p class="text-gray-800 text-base font-semibold">Plant ID: 002</p>
+<p class="text-gray-500 text-sm">Location: Field B</p>
+<p class="text-gray-500 text-sm">Last Spray: 2024-05-18</p>
+</div>
+<div class="flex flex-col items-end space-y-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium infection-badge-medium">
+                    At Risk
+                  </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                    Medium Infection
+                  </span>
+</div>
+</div>
+<div class="border-t border-gray-200 px-4 py-3 flex justify-end space-x-2">
+<button class="text-sm font-medium text-gray-700 py-1.5 px-3 rounded-md hover:bg-gray-100">View Details</button>
+<button class="text-sm font-medium text-white bg-[var(--c-green-600)] py-1.5 px-3 rounded-md hover:bg-[var(--c-green-700)]">Spray Now</button>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+<div class="flex items-center p-4">
+<img alt="Plant 003" class="rounded-lg size-16 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjSFj6JOfPo3wMWixamyfdToDua0X2N5jnaXSHysuTZIZmduV18JM_i6XnYQshkemtODKNRaT12UsKOst_uqHUx96UkXRNInF6urntI6V2tu3wT3YGajrmSkd2X5I1pUbid-VgbGKcMsQ-tTP2pPTxxIG7E35FZcBK_Gw6-e9GzDEM93vJknFjkv1-nr9z1iIo7G84gFTHsgPE4xfdJJmxHxS6_habCaOehIvZwnb8iLhS2Xjri_DAzi52zMWu-X8bFe2h5n8l1PW9"/>
+<div class="ml-4 flex-1">
+<p class="text-gray-800 text-base font-semibold">Plant ID: 003</p>
+<p class="text-gray-500 text-sm">Location: Field C</p>
+<p class="text-gray-500 text-sm">Last Spray: 2024-05-15</p>
+</div>
+<div class="flex flex-col items-end space-y-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium infection-badge-high">
+                    Infected
+                  </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                    High Infection
+                  </span>
+</div>
+</div>
+<div class="border-t border-gray-200 px-4 py-3 flex justify-end space-x-2">
+<button class="text-sm font-medium text-gray-700 py-1.5 px-3 rounded-md hover:bg-gray-100">View Details</button>
+<button class="text-sm font-medium text-white bg-[var(--c-green-600)] py-1.5 px-3 rounded-md hover:bg-[var(--c-green-700)]">Spray Now</button>
+</div>
+</div>
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+<div class="flex items-center p-4">
+<img alt="Plant 004" class="rounded-lg size-16 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdkiJ_HTDp2mFUxS5J1MT_jmIzy1urpVe8M0Ol8UEAcoYZOLhnRV9oYhnh1oYRy0J3Kt9zueXTiqmNR43AWiGKLTwPW0jpdKLMBLKGRtlGdqZ692kAxnU_WSoDa7QOlAjM7zQF7B-cZop2-0oV8ouDWdtDRpEtxAx8kh_erbJSYwWNxpqR6NpTQjzFrTvPmv8OjfrwzZ50TrvTuYQhjtXxvKrIH6fGBARoXmJOLViTtcVTB80mLy9ZnSLNLHbLDU_PBU4Ug5sT5cue"/>
+<div class="ml-4 flex-1">
+<p class="text-gray-800 text-base font-semibold">Plant ID: 004</p>
+<p class="text-gray-500 text-sm">Location: Field A</p>
+<p class="text-gray-500 text-sm">Last Spray: 2024-05-21</p>
+</div>
+<div class="flex flex-col items-end space-y-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium infection-badge-low">
+                    Healthy
+                  </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                    Low Infection
+                  </span>
+</div>
+</div>
+<div class="border-t border-gray-200 px-4 py-3 flex justify-end space-x-2">
+<button class="text-sm font-medium text-gray-700 py-1.5 px-3 rounded-md hover:bg-gray-100">View Details</button>
+<button class="text-sm font-medium text-white bg-[var(--c-green-600)] py-1.5 px-3 rounded-md hover:bg-[var(--c-green-700)]">Spray Now</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-t">
+<div class="flex justify-around h-16">
+<a class="flex flex-col items-center justify-center gap-1 text-gray-500 w-full hover:bg-gray-50" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-xs font-medium">Dashboard</p>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-[var(--c-green-600)] bg-green-50 w-full" href="#">
+<span class="material-symbols-outlined">eco</span>
+<p class="text-xs font-medium">Plant Health</p>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-gray-500 w-full hover:bg-gray-50" href="#">
+<span class="material-symbols-outlined">syringe</span>
+<p class="text-xs font-medium">Sprayer</p>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-gray-500 w-full hover:bg-gray-50" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<p class="text-xs font-medium">Analytics</p>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-gray-500 w-full hover:bg-gray-50" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-xs font-medium">Settings</p>
+</a>
+</div>
+</nav>
+</div>
+
+</body></html>

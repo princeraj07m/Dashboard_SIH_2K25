@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<title>AgriGuard Splash Screen</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-color: #4CAF50;--secondary-color: #388E3C;--background-color: #F1F8E9;--text-color: #212121;--subtle-text-color: #757575;}
+      .loader {
+        border-top-color: var(--primary-color);
+        -webkit-animation: spinner 1.5s linear infinite;
+        animation: spinner 1.5s linear infinite;
+      }
+      @-webkit-keyframes spinner {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+      }
+      @keyframes spinner {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[var(--background-color)]">
+<div class="relative flex size-full min-h-screen flex-col justify-center items-center p-8 text-center" style='font-family: "Plus Jakarta Sans", sans-serif;'>
+<div class="flex-grow flex flex-col justify-center items-center">
+<div class="mb-6">
+<img alt="AgriGuard Logo" class="h-24 w-24 mx-auto text-[var(--primary-color)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2cuRMcOhwJWC5tcEEfxE4N4KqrTvgALzZIbIO3l3kAGWUfyb1R6vNWst2cKNmjq4pKGCGVQSg-32JBM1X8R8Rf5Enu0mRQ0mNPgUk8LzcQmkZo8mJwyc_XvsvqZtDNDQeNWKbpc9mJIxPjTkqIqgSLqN62--f0Ldnovf4Nudy3ntbXBWYBIg_gilU_Ir9RyVdkOYYJhgZGbcMOtDb85Pl5tozHWfnZnHzzY3LKa_ILEGADKAHOYGBf-R2RP8fX2DA-2s1JEuKOH_n"/>
+</div>
+<h1 class="text-[var(--text-color)] text-4xl font-bold tracking-tight mb-2">AgriGuard</h1>
+<p class="text-[var(--subtle-text-color)] text-lg">Smart Pesticide Control</p>
+</div>
+<div class="w-full flex flex-col items-center">
+<div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+<p class="text-[var(--subtle-text-color)] text-sm">Loading...</p>
+</div>
+<div class="absolute bottom-8 text-center w-full">
+<p class="text-[var(--secondary-color)] text-xs font-medium">Powered by AgriTech Solutions</p>
+</div>
+</div>
+
+</body></html>

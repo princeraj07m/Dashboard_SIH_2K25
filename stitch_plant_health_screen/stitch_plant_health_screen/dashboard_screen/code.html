@@ -1,0 +1,143 @@
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B600%3B700%3B800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-50: #F2F9F2;
+        --primary-100: #E6F3E6;
+        --primary-200: #C1E0C1;
+        --primary-500: #4CAF50;
+        --primary-600: #388E3C;
+        --primary-700: #2E7D32;
+        --primary-800: #1B5E20;
+        --secondary-50: #FAF8F7;
+        --secondary-100: #F4F0F0;
+        --secondary-200: #E5DCDC;
+        --secondary-400: #BCA9A9;
+        --secondary-500: #886364;
+        --secondary-600: #664A4B;
+        --secondary-900: #181111;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[var(--secondary-50)]">
+<div class="relative flex size-full min-h-screen flex-col justify-between group/design-root" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+<header class="sticky top-0 z-10 bg-[var(--secondary-50)]/80 backdrop-blur-sm">
+<div class="flex items-center p-4 justify-between">
+<div class="flex items-center gap-2">
+<div class="text-[var(--primary-600)]" data-icon="Leaf" data-size="32px" data-weight="regular">
+<svg fill="currentColor" height="32px" viewBox="0 0 256 256" width="32px" xmlns="http://www.w3.org/2000/svg">
+<path d="M223.45,40.07a8,8,0,0,0-7.52-7.52C139.8,28.08,78.82,51,52.82,94a87.09,87.09,0,0,0-12.76,49c.57,15.92,5.21,32,13.79,47.85l-19.51,19.5a8,8,0,0,0,11.32,11.32l19.5-19.51C81,210.73,97.09,215.37,113,215.94q1.67.06,3.33.06A86.93,86.93,0,0,0,162,203.18C205,177.18,227.93,116.21,223.45,40.07ZM153.75,189.5c-22.75,13.78-49.68,14-76.71.77l88.63-88.62a8,8,0,0,0-11.32-11.32L65.73,179c-13.19-27-13-54,.77-76.71,22.09-36.47,74.6-56.44,141.31-54.06C210.2,114.89,190.22,167.41,153.75,189.5Z"></path>
+</svg>
+</div>
+<h1 class="text-[var(--secondary-900)] text-xl font-bold leading-tight tracking-[-0.015em]">AgriGuard</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="relative flex items-center justify-center size-10 rounded-full bg-white text-[var(--secondary-900)]">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+<div class="absolute top-1.5 right-1.5 size-2.5 rounded-full bg-red-500 border-2 border-white"></div>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full bg-white text-[var(--secondary-900)]">
+<span class="material-symbols-outlined text-2xl">dark_mode</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full bg-white text-[var(--secondary-900)]">
+<span class="material-symbols-outlined text-2xl">language</span>
+</button>
+</div>
+</div>
+<div class="px-4 pb-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[var(--secondary-500)]">grass</span>
+<select class="w-full appearance-none rounded-xl border-none bg-white py-3 pl-10 pr-4 text-base font-semibold text-[var(--secondary-900)] placeholder-[var(--secondary-500)] focus:ring-2 focus:ring-[var(--primary-500)]">
+<option>Main Farm - Plot A</option>
+<option>Greenhouse 1 - Plot B</option>
+<option>Orchard - Plot C</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--secondary-500)]">expand_more</span>
+</div>
+</div>
+</header>
+<main class="flex-1">
+<div class="p-4">
+<h2 class="text-[var(--secondary-900)] text-lg font-bold leading-tight tracking-[-0.015em] mb-4">Status Overview</h2>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-white shadow-sm">
+<div class="flex items-center gap-2">
+<div class="flex items-center justify-center size-8 rounded-full bg-[var(--primary-100)] text-[var(--primary-600)]">
+<span class="material-symbols-outlined text-lg">eco</span>
+</div>
+<p class="text-[var(--secondary-600)] text-sm font-medium leading-normal">Total Plants</p>
+</div>
+<p class="text-[var(--secondary-900)] tracking-tight text-3xl font-bold leading-tight">1,200</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-white shadow-sm">
+<div class="flex items-center gap-2">
+<div class="flex items-center justify-center size-8 rounded-full bg-[var(--primary-100)] text-[var(--primary-600)]">
+<span class="material-symbols-outlined text-lg">health_and_safety</span>
+</div>
+<p class="text-[var(--secondary-600)] text-sm font-medium leading-normal">Healthy</p>
+</div>
+<p class="text-[var(--primary-700)] tracking-tight text-3xl font-bold leading-tight">1,150</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-white shadow-sm">
+<div class="flex items-center gap-2">
+<div class="flex items-center justify-center size-8 rounded-full bg-red-100 text-red-600">
+<span class="material-symbols-outlined text-lg">sick</span>
+</div>
+<p class="text-[var(--secondary-600)] text-sm font-medium leading-normal">Infected</p>
+</div>
+<p class="text-red-600 tracking-tight text-3xl font-bold leading-tight">50</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-white shadow-sm">
+<div class="flex items-center gap-2">
+<div class="flex items-center justify-center size-8 rounded-full bg-blue-100 text-blue-600">
+<span class="material-symbols-outlined text-lg">sprinkler</span>
+</div>
+<p class="text-[var(--secondary-600)] text-sm font-medium leading-normal">Sprayers</p>
+</div>
+<p class="text-blue-600 tracking-tight text-3xl font-bold leading-tight">2</p>
+</div>
+</div>
+</div>
+<div class="px-4 py-3">
+<h2 class="text-[var(--secondary-900)] text-lg font-bold leading-tight tracking-[-0.015em] mb-4">Interactive Farm Map</h2>
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl object-cover shadow-sm border border-[var(--secondary-100)]" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA6vxE5n--eizglWLWop6V0RGxvPRC45l2zA1KSVifISUizbKJvx2-woWhr-L5Dr7An1MXUEBCQ3Ec5UVeIKsnnP3G9DP9y7Oyzd5A4GauxEauCopkycSBAEuiJvcvyBsi_9HX6tGqpBSIqET_KzgqNc30o7DKRVEO7h7eQEa8NgFaht0yGuv72mWhvjKZIsvMTDfsoDGc57oYGUxfRuhS8bFPnAGbPLrl6m6TxaBNVrid8fcwi4hVg3pyoYqCHsqFRXJdG564yXisS");'></div>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-[var(--secondary-50)]/80 backdrop-blur-sm pb-safe">
+<div class="flex justify-around border-t border-[var(--secondary-100)] bg-white/50 px-4 py-2">
+<a class="flex flex-col items-center justify-end gap-1 rounded-full text-[var(--primary-600)]" href="#">
+<span class="material-symbols-outlined text-2xl">dashboard</span>
+<p class="text-xs font-semibold leading-normal tracking-[0.015em]">Dashboard</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--secondary-500)]" href="#">
+<span class="material-symbols-outlined text-2xl">spa</span>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Plant Health</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--secondary-500)]" href="#">
+<span class="material-symbols-outlined text-2xl">syringe</span>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Sprayer</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--secondary-500)]" href="#">
+<span class="material-symbols-outlined text-2xl">bar_chart</span>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Analytics</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--secondary-500)]" href="#">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Settings</p>
+</a>
+</div>
+</footer>
+</div>
+
+</body></html>

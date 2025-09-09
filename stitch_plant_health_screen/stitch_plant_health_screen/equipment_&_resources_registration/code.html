@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --radio-dot-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27%23ffffff%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3ccircle cx=%278%27 cy=%278%27 r=%273%27/%3e%3c/svg%3e');
+        --select-button-svg: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724px%27 height=%2724px%27 fill=%27rgb(99,136,99)%27 viewBox=%270 0 256 256%27%3e%3cpath d=%27M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z%27%3e%3c/path%3e%3c/svg%3e');
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gray-50">
+<div class="relative flex size-full min-h-screen flex-col justify-between group/design-root" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+<div class="flex flex-col">
+<header class="flex items-center justify-between p-4">
+<button class="flex size-10 items-center justify-center rounded-full bg-white shadow-sm">
+<span class="material-symbols-outlined text-gray-800">arrow_back</span>
+</button>
+<h1 class="flex-1 text-center text-xl font-bold text-gray-900 pr-10">Equipment &amp; Resources</h1>
+</header>
+<main class="flex-grow p-4">
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-700" for="sprayer-type">Sprayer Type</label>
+<select class="form-select w-full rounded-full border-gray-300 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-green-500 focus:ring-green-500" id="sprayer-type">
+<option selected="">Select Sprayer Type</option>
+<option value="backpack">Backpack Sprayer</option>
+<option value="boom">Boom Sprayer</option>
+<option value="airblast">Airblast Sprayer</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-700" for="iot-devices">Number of IoT Devices Available</label>
+<input class="form-input w-full rounded-full border-gray-300 bg-white px-4 py-3 text-gray-900 shadow-sm focus:border-green-500 focus:ring-green-500" id="iot-devices" placeholder="e.g., 5" type="number"/>
+</div>
+<fieldset class="space-y-2">
+<legend class="text-sm font-medium text-gray-700">Do you own a tractor or other machinery?</legend>
+<div class="flex gap-4 pt-2">
+<label class="flex flex-1 cursor-pointer items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-3 text-center shadow-sm has-[:checked]:border-green-500 has-[:checked]:bg-green-500 has-[:checked]:text-white">
+<input class="sr-only" name="machinery-ownership" type="radio" value="yes"/>
+<span class="text-sm font-semibold">Yes</span>
+</label>
+<label class="flex flex-1 cursor-pointer items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-3 text-center shadow-sm has-[:checked]:border-green-500 has-[:checked]:bg-green-500 has-[:checked]:text-white">
+<input class="sr-only" name="machinery-ownership" type="radio" value="no"/>
+<span class="text-sm font-semibold">No</span>
+</label>
+</div>
+</fieldset>
+</div>
+</main>
+</div>
+<footer class="p-4">
+<div class="flex justify-between gap-4">
+<button class="flex-1 rounded-full bg-gray-200 py-3 text-sm font-bold text-gray-700">Previous</button>
+<button class="flex-1 rounded-full bg-[#17cf17] py-3 text-sm font-bold text-white">Next</button>
+</div>
+</footer>
+</div>
+
+</body></html>

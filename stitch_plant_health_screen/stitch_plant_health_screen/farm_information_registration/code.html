@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-color: #17cf17;
+      }
+      .form-select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+        appearance: none;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gray-50">
+<div class="relative flex size-full min-h-screen flex-col justify-between group/design-root overflow-x-hidden" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+<div class="flex flex-col">
+<header class="flex items-center justify-between bg-white p-4 shadow-sm">
+<button class="text-gray-700">
+<span class="material-symbols-outlined"> arrow_back_ios_new </span>
+</button>
+<h1 class="flex-1 text-center text-lg font-bold text-gray-800">Farm Information</h1>
+<div class="w-8"></div>
+</header>
+<main class="flex-grow p-4">
+<div class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-gray-700" for="farm-name">Farm Name</label>
+<input class="mt-1 block w-full rounded-xl border-gray-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500" id="farm-name" placeholder="Enter farm name" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700" for="farm-location">Farm Location</label>
+<input class="mt-1 block w-full rounded-xl border-gray-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500" id="farm-location" placeholder="Village, District, State" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700" for="farm-size">Farm Size (in acres)</label>
+<input class="mt-1 block w-full rounded-xl border-gray-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500" id="farm-size" placeholder="Enter farm size" type="number"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700" for="ownership-type">Ownership Type</label>
+<select class="form-select mt-1 block w-full rounded-xl border-gray-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500" id="ownership-type">
+<option>Select ownership type</option>
+<option>Owned</option>
+<option>Leased</option>
+<option>Rented</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700" for="irrigation-type">Irrigation Type</label>
+<select class="form-select mt-1 block w-full rounded-xl border-gray-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500" id="irrigation-type">
+<option>Select irrigation type</option>
+<option>Drip</option>
+<option>Sprinkler</option>
+<option>Surface</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700" for="soil-type">Soil Type</label>
+<select class="form-select mt-1 block w-full rounded-xl border-gray-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500" id="soil-type">
+<option>Select soil type</option>
+<option>Loam</option>
+<option>Clay</option>
+<option>Sandy</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700" for="water-source">Water Source</label>
+<select class="form-select mt-1 block w-full rounded-xl border-gray-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500" id="water-source">
+<option>Select water source</option>
+<option>Well</option>
+<option>River</option>
+<option>Pond</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700" for="climate-zone">Climate Zone</label>
+<select class="form-select mt-1 block w-full rounded-xl border-gray-300 bg-white shadow-sm focus:border-green-500 focus:ring-green-500" id="climate-zone">
+<option>Select climate zone</option>
+<option>Tropical</option>
+<option>Subtropical</option>
+<option>Temperate</option>
+</select>
+</div>
+</div>
+</main>
+</div>
+<footer class="sticky bottom-0 bg-white pb-safe">
+<div class="flex justify-between p-4">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-gray-200 text-gray-800 text-base font-bold">
+<span class="truncate">Previous</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-6 bg-[var(--primary-color)] text-white text-base font-bold shadow">
+<span class="truncate">Next</span>
+</button>
+</div>
+<nav class="flex justify-around border-t border-gray-200 py-2">
+<a class="flex flex-col items-center justify-end gap-1 text-[var(--primary-color)]" href="#">
+<span class="material-symbols-outlined"> home </span>
+<p class="text-xs font-medium">Home</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-gray-500" href="#">
+<span class="material-symbols-outlined"> monitoring </span>
+<p class="text-xs font-medium">Monitor</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-gray-500" href="#">
+<span class="material-symbols-outlined"> description </span>
+<p class="text-xs font-medium">Report</p>
+</a>
+<a class="flex flex-col items-center justify-end gap-1 text-gray-500" href="#">
+<span class="material-symbols-outlined"> person </span>
+<p class="text-xs font-medium">Profile</p>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>

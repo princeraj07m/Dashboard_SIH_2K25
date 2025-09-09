@@ -1,0 +1,146 @@
+<html><head>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<meta charset="utf-8"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-50: #f2f9f2;
+        --primary-100: #e5f3e6;
+        --primary-200: #cbe7cd;
+        --primary-300: #b1dcb4;
+        --primary-400: #97d19b;
+        --primary-500: #7dc682;
+        --primary-600: #63bc69;
+        --primary-700: #49b250;
+        --primary-800: #30a837;
+        --primary-900: #169e1e;
+        --secondary-50: #f1f3f5;
+        --secondary-100: #e4e7eb;
+        --secondary-200: #c8cdd4;
+        --secondary-300: #acb3bd;
+        --secondary-400: #9099a6;
+        --secondary-500: #747f8f;
+        --secondary-600: #586578;
+        --secondary-700: #3c4b61;
+        --secondary-800: #20314a;
+        --secondary-900: #041733;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-white">
+<div class="relative flex size-full min-h-screen flex-col bg-white justify-between group/design-root" style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
+<div class="flex flex-col flex-1">
+<header class="flex items-center p-4">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-zinc-100">
+<span class="material-symbols-outlined text-zinc-800">arrow_back</span>
+</button>
+<h1 class="flex-1 text-center text-lg font-bold text-zinc-800 pr-10">Plant Details</h1>
+</header>
+<main class="flex-1 px-4">
+<div class="w-full aspect-[4/3] rounded-2xl overflow-hidden mb-6">
+<img alt="Plant snapshot" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEqN8YaGFg5GDXSpgUVf8yYJkxU9DhjGSJCeYbH-HAJy8OL68wL-c_jMHouViMY0499Njl3tE5gsTlLXG5KBp3sIBtIIQJ3LWQMzKayzCDg2cU3QZD0q9dut2BIwt0mAaB9LNwFkSNGrTvaVvk6-zAE01RYg0hjU1s7IpVkDdsaysLSQNogr_VGnYrC2zjhU95gvYtQNo2zrRenNLyEDt6IIx7MjvO-9HAQDzNC1gzOJnqYaPNTHf4ksb_6CrZpRYX_l2XDMtu1TPA"/>
+</div>
+<section class="mb-6">
+<h2 class="text-xl font-bold text-zinc-800 mb-3">AI Diagnosis</h2>
+<div class="flex items-center p-4 rounded-xl bg-red-50 border border-red-200">
+<div class="p-3 bg-red-100 rounded-full mr-4">
+<span class="material-symbols-outlined text-red-600">bug_report</span>
+</div>
+<div class="flex-1">
+<p class="font-semibold text-red-700">High Severity Infection Detected</p>
+<p class="text-sm text-zinc-600">Confidence: <span class="font-medium text-zinc-800">95%</span></p>
+</div>
+</div>
+</section>
+<section class="mb-6">
+<div class="p-4 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-200)]">
+<h3 class="font-bold text-[var(--primary-800)] mb-2 text-lg">Recommended Treatment</h3>
+<div class="flex items-start gap-4">
+<p class="text-zinc-600 text-sm flex-1">Apply eco-friendly pesticide "GreenLeaf Guard" to the affected foliage. Monitor plant health for the next 48 hours and re-apply if necessary.</p>
+<div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Recommended treatment" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf0dkOT_fiEn1oA0jmkFLmNGTJg2cobe29QPPkIm0lTykg-_ysI19-dzbaivXcXa2fHKclzlgYeeUhef2F4Xaps_t1twL6rbuIt_4Xf_0mK8j4j1_W098dd1X1_lDHAtRfhgaO8KHxLxdkCB2iqEjPTJT3mhjyz9yhYcpwrRwHRvIGD4GAYXc_paCSsIz_4SCcsWYELD78v7C6Sy4TyB8Pf7ijiAEdrw4sUhSH7mVAUv9CngQyu10McBcBiLowbApC960-AQQvjFpZ"/>
+</div>
+</div>
+<div class="flex gap-3 mt-4">
+<button class="flex-1 flex items-center justify-center rounded-lg h-12 px-4 bg-[var(--primary-700)] text-white text-base font-bold transition-colors hover:bg-[var(--primary-800)]">
+<span class="material-symbols-outlined mr-2">spray</span>
+<span>Spray Now</span>
+</button>
+<button class="flex-1 flex items-center justify-center rounded-lg h-12 px-4 bg-[var(--primary-200)] text-[var(--primary-900)] text-base font-bold transition-colors hover:bg-[var(--primary-300)]">
+<span class="material-symbols-outlined mr-2">calendar_today</span>
+<span>Schedule</span>
+</button>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-xl font-bold text-zinc-800 mb-3">History</h2>
+<div class="relative pl-8">
+<div class="absolute left-[18px] top-2 bottom-2 w-0.5 bg-zinc-200"></div>
+<div class="relative mb-6">
+<div class="absolute -left-5 top-1.5 flex items-center justify-center w-5 h-5 bg-red-500 rounded-full border-4 border-white">
+<span class="material-symbols-outlined text-white text-xs">bug_report</span>
+</div>
+<div class="pl-4">
+<p class="font-semibold text-zinc-800">Infection Detected</p>
+<p class="text-sm text-zinc-500">July 22, 2024</p>
+</div>
+</div>
+<div class="relative mb-6">
+<div class="absolute -left-5 top-1.5 flex items-center justify-center w-5 h-5 bg-[var(--primary-500)] rounded-full border-4 border-white">
+<span class="material-symbols-outlined text-white text-xs">spray</span>
+</div>
+<div class="pl-4">
+<p class="font-semibold text-zinc-800">Spray Applied</p>
+<p class="text-sm text-zinc-500">July 21, 2024</p>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -left-5 top-1.5 flex items-center justify-center w-5 h-5 bg-red-500 rounded-full border-4 border-white">
+<span class="material-symbols-outlined text-white text-xs">bug_report</span>
+</div>
+<div class="pl-4">
+<p class="font-semibold text-zinc-800">Infection Detected</p>
+<p class="text-sm text-zinc-500">July 20, 2024</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<footer class="sticky bottom-0 bg-white border-t border-zinc-200">
+<nav class="flex justify-around items-center h-20 px-4">
+<a class="flex flex-col items-center justify-center gap-1 text-zinc-500" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-xs font-medium">Dashboard</p>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-[var(--primary-700)]" href="#">
+<span class="material-symbols-outlined">eco</span>
+<p class="text-xs font-bold">Plant Health</p>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-zinc-500" href="#">
+<span class="material-symbols-outlined">control_camera</span>
+<p class="text-xs font-medium">Sprayer</p>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-zinc-500" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<p class="text-xs font-medium">Analytics</p>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-zinc-500" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-xs font-medium">Settings</p>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>
