@@ -9,7 +9,7 @@ import { Setting } from './setting/setting';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: Home
   },
   {
