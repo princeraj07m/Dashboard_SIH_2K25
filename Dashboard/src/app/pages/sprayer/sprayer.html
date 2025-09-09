@@ -1,61 +1,86 @@
-  <section class="sprayer-screen p-3">
-    <h5 class="fw-bold mb-3">← Sprayer Control</h5>
+<section class="sprayer-screen p-3">
+  <h5 class="fw-bold mb-3">← Sprayer Control</h5>
 
-    <div class="sprayer-card">
-      <div class="d-flex justify-content-between">
+  <!-- Sprayer 1 -->
+  <div class="sprayer-card">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <!-- Icon Circle -->
+        <div class="sprayer-icon bg-success">
+          <i class="bi bi-droplet-fill"></i>
+        </div>
+        <!-- Text -->
         <div>
           <h6>Sprayer 1</h6>
           <small>Field A</small>
           <p>Tank: 75%</p>
         </div>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" checked>
-        </div>
       </div>
-      <div class="progress mb-2">
-        <div class="progress-bar bg-success" style="width:75%"></div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" checked>
       </div>
-      <small class="text-muted">Last Maint: 2024-05-15</small>
     </div>
+    <div class="progress mb-2 mt-2">
+      <div class="progress-bar bg-success" style="width:75%"></div>
+    </div>
+    <small class="text-muted">Last Maint: 2024-05-15</small>
+  </div>
 
-    <div class="sprayer-card">
-      <div class="d-flex justify-content-between">
+  <!-- Sprayer 2 -->
+  <div class="sprayer-card">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <!-- Icon Circle -->
+        <div class="sprayer-icon bg-warning">
+          <i class="bi bi-droplet-fill"></i>
+        </div>
+        <!-- Text -->
         <div>
           <h6>Sprayer 2</h6>
           <small>Field B</small>
           <p>Tank: 30%</p>
         </div>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox">
-        </div>
       </div>
-      <div class="progress mb-2">
-        <div class="progress-bar bg-warning" style="width:30%"></div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox">
       </div>
-      <small class="text-muted">Last Maint: 2024-05-12</small>
     </div>
+    <div class="progress mb-2 mt-2">
+      <div class="progress-bar bg-warning" style="width:30%"></div>
+    </div>
+    <small class="text-muted">Last Maint: 2024-05-12</small>
+  </div>
 
-    <div class="sprayer-card">
-      <div class="d-flex justify-content-between">
+  <!-- Sprayer 3 -->
+  <div class="sprayer-card">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <!-- Icon Circle -->
+        <div class="sprayer-icon bg-success">
+          <i class="bi bi-droplet-fill"></i>
+        </div>
+        <!-- Text -->
         <div>
           <h6>Sprayer 3</h6>
           <small>Field C</small>
           <p>Tank: 90%</p>
         </div>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" checked>
-        </div>
       </div>
-      <div class="progress mb-2">
-        <div class="progress-bar bg-success" style="width:90%"></div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" checked>
       </div>
-      <small class="text-muted">Last Maint: 2024-05-20</small>
     </div>
-
-    <button class="btn btn-success w-100 mt-3">SPRAY All Infected</button>
-
-    <!-- Alerts -->
-    <div class="alert alert-warning mt-3">
-      ⚠️ Low Tank Level – Sprayer 2 tank is at 30%
+    <div class="progress mb-2 mt-2">
+      <div class="progress-bar bg-success" style="width:90%"></div>
     </div>
-  </section>
+    <small class="text-muted">Last Maint: 2024-05-20</small>
+  </div>
+
+  <!-- Button -->
+  <button class="btn btn-success w-100 mt-3">SPRAY All Infected</button>
+
+  <!-- Alerts -->
+  <div class="alert alert-warning mt-3">
+    ⚠️ Low Tank Level – Sprayer 2 tank is at 30%
+  </div>
+</section>
