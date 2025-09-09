@@ -1,0 +1,67 @@
+
+
+h6, h5 {
+  margin: 0;
+}
+
+/* Status Cards */
+.status-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0px 3px 8px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+/* Map */
+.map-placeholder {
+  background: url('https://via.placeholder.com/600x300') no-repeat center/cover;
+  height: 200px;
+  border-radius: 12px;
+}
+
+/* Sprayer Cards */
+.sprayer-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0px 3px 8px rgba(0,0,0,0.05);
+}
+
+/* Plant Cards */
+.plant-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0px 3px 8px rgba(0,0,0,0.05);
+}
+
+.plant-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #777;
+}
+
+.bottom-nav a.active {
+  color: #28a745;
+  font-weight: bold;
+}

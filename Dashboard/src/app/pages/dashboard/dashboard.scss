@@ -1,0 +1,74 @@
+h3, h5 {
+  margin: 0;
+}
+
+/* Status Cards */
+.status-card {
+  background: linear-gradient(145deg, #ffffff, #f9fdf8);
+  padding: 22px;
+  border-radius: 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  min-height: 130px;
+}
+
+.status-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0px 8px 20px rgba(34, 197, 94, 0.25);
+}
+
+/* Ripple effect */
+.status-card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(40, 167, 69, 0.2) 20%, transparent 70%);
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  border-radius: 50%;
+}
+
+.status-card:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Text inside cards */
+.status-card p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+}
+
+.status-card h3 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.status-card small {
+  font-size: 13px;
+}
+
+/* Map */
+.map-placeholder {
+  background: url('https://www.canr.msu.edu/contentAsset/image/db789906-6e2a-4210-9eea-b6113b92966e/fileAsset/filter/Resize/resize_w/600') no-repeat  center/cover;
+  height: 300px;
+  border-radius: 14px;
+  box-shadow: inset 0px 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Desktop spacing */
+@media (min-width: 992px) {
+  .container-fluid {
+    max-width: 1100px;
+  }
+}
