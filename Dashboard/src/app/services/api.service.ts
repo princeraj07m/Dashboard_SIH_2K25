@@ -8,6 +8,7 @@ export interface User {
   _id?: string;
   fullName: string;
   email: string;
+  password?: string; // Make password optional for profile updates
   phone: string;
   communication?: string;
   language?: string;
@@ -26,6 +27,7 @@ export interface User {
   fertilizerPreference?: string;
   monthlyExpenditure?: number;
   createdAt?: Date;
+  farmingExperience: string;
 }
 
 export interface LoginRequest {
@@ -54,6 +56,7 @@ export interface RegisterRequest {
   }>;
   fertilizerPreference?: string;
   monthlyExpenditure?: number;
+  farmingExperience: string;
 }
 
 export interface AuthResponse {
@@ -138,6 +141,11 @@ export class ApiService {
 
   getAllUsers(): Observable<UsersResponse> {
     return this.http.get<UsersResponse>(`${this.apiUrl}/users`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
+  updateProfile(userData: User): Observable<AuthResponse> {
+    return this.http.put<AuthResponse>(`${this.apiUrl}/profile`, userData, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
 

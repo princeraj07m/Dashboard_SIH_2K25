@@ -7,11 +7,16 @@ import { Sprayer } from './sprayer/sprayer';
 import { Analytics } from './analytics/analytics';
 import { Setting } from './setting/setting';
 import { Users } from './users/users';
+import { Profile } from './profile/profile';
 
 const routes: Routes = [
   {
     path: '',
     component: Home
+  },
+  {
+    path: 'profile',
+    component: Profile
   },
   {
     path: 'dashboard',

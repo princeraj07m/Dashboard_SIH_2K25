@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { PagesRoutingModule } from './pages-routing-module';
 import { Home } from './home/home';
@@ -9,6 +10,7 @@ import { Sprayer } from './sprayer/sprayer';
 import { Analytics } from './analytics/analytics';
 import { Setting } from './setting/setting';
 import { Users } from './users/users';
+import { Profile } from './profile/profile';
 import { SharedModule } from '../shared/shared-module';
 
 @NgModule({
@@ -20,9 +22,11 @@ import { SharedModule } from '../shared/shared-module';
     Analytics,
     Setting,
     Users,
+    Profile,
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     PagesRoutingModule,
     SharedModule
   ]
