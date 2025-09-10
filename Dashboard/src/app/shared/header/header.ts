@@ -29,4 +29,8 @@ export class Header implements OnInit {
       this.authService.logout();
     }
   }
+
+  demoLogin(): void {
+    this.authService.demoLogin();
+  }
 }

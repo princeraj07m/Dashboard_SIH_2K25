@@ -27,8 +27,14 @@
                         Register
                     </a>
                 </li>
+                <li class="nav-item px-2">
+                    <button class="btn btn-warning px-3 ms-2 rounded-pill shadow-sm" (click)="demoLogin()">
+                        <i class="fa-solid fa-play me-1"></i>Demo
+                    </button>
+                </li>
             </ng-container>
             <ng-container *ngIf="isLoggedIn">
+                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/main/control-panel">Control Panel</a></li>
                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" (click)="navigateToProfile()">Edit Profile</a></li>
                 <li class="nav-item px-2">
                     <button class="btn btn-outline-danger px-3 ms-2 rounded-pill shadow-sm" (click)="logout()">
@@ -82,6 +88,12 @@
        routerLink="/auth/register">
       <i class="fa-solid fa-user-plus me-2"></i> Register
     </a>
+
+    <button class="btn btn-warning text-white mt-2 w-100 rounded-pill shadow-sm py-2"
+            data-bs-dismiss="offcanvas"
+            (click)="demoLogin()">
+      <i class="fa-solid fa-play me-2"></i> Demo Mode
+    </button>
   </ng-container>
 
   <ng-container *ngIf="isLoggedIn">
