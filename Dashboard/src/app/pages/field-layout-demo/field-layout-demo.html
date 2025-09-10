@@ -1,6 +1,7 @@
-<div class="container-fluid">
+<app-header></app-header>
+<div class="container">
   <h1 class="text-center mb-4">Field Layout Component Demo</h1>
-  
+
   <!-- Control Panel -->
   <div class="row mb-4">
     <div class="col-12">
@@ -55,7 +56,7 @@
             <li>Use the component in your template: <code>&lt;app-field-layout [plants]="yourPlantArray"&gt;&lt;/app-field-layout&gt;</code></li>
             <li>Pass a Plant array with the required structure</li>
           </ol>
-          
+
           <h6>Plant Interface:</h6>
           <pre class="bg-light p-3 rounded"><code>interface Plant {{ '{' }}
   plantId: string;
@@ -75,3 +76,5 @@
     </div>
   </div>
 </div>
+
+<app-footer></app-footer>

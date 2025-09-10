@@ -1,74 +1,53 @@
-<div class="user-profile-container">
-  <!-- Header -->
-  <div class="header">
-    <div class="header-content">
-      <div class="logo">
-        <i class="fas fa-leaf"></i>
-        <span>AgriTrack</span>
-      </div>
-      <nav class="main-nav">
-        <a href="#" class="nav-link">Dashboard</a>
-        <a href="#" class="nav-link">Crops</a>
-        <a href="#" class="nav-link">Livestock</a>
-        <a href="#" class="nav-link">Resources</a>
-        <a href="#" class="nav-link">Marketplace</a>
-      </nav>
-      <div class="header-actions">
-        <i class="fas fa-bell notification-icon"></i>
-        <img [src]="userProfile.profileImage" alt="Profile" class="profile-image">
-      </div>
-    </div>
-  </div>
-
-  <div class="main-content">
+<app-header></app-header>
+  <div class="main-content" style="min-height: 100vh;">
     <!-- Left Sidebar -->
     <div class="sidebar">
       <h3 class="sidebar-title">Profile & Settings</h3>
       <nav class="sidebar-nav">
-        <a href="#" 
-           class="nav-item" 
+        <a href="#"
+           class="nav-item"
            [class.active]="activeSection === 'farm-details'"
            (click)="setActiveSection('farm-details', $event)">
           <i class="fas fa-tractor"></i>
           Farm Details
         </a>
-        <a href="#" 
-           class="nav-item" 
+        <a href="#"
+           class="nav-item"
            [class.active]="activeSection === 'edit-details'"
            (click)="setActiveSection('edit-details', $event)">
           <i class="fas fa-edit"></i>
           Edit Details
         </a>
-        <a href="#" 
-           class="nav-item" 
+        <a href="#"
+           class="nav-item"
            [class.active]="activeSection === 'subscription'"
            (click)="setActiveSection('subscription', $event)">
           <i class="fas fa-star"></i>
           Subscription
         </a>
-        <a href="#" 
-           class="nav-item" 
+        <a href="#"
+           class="nav-item"
            [class.active]="activeSection === 'preferences'"
            (click)="setActiveSection('preferences', $event)">
           <i class="fas fa-sliders-h"></i>
           Preferences
         </a>
-        <a href="#" 
-           class="nav-item" 
+        <a href="#"
+           class="nav-item"
            [class.active]="activeSection === 'integrations'"
            (click)="setActiveSection('integrations', $event)">
           <i class="fas fa-puzzle-piece"></i>
           Integrations
         </a>
-        <a href="#" 
-           class="nav-item" 
+        <a href="#"
+           class="nav-item"
            [class.active]="activeSection === 'security'"
            (click)="setActiveSection('security', $event)">
           <i class="fas fa-shield-alt"></i>
           Security
         </a>
-        <a href="#" 
-           class="nav-item" 
+        <a href="#"
+           class="nav-item"
            [class.active]="activeSection === 'system'"
            (click)="setActiveSection('system', $event)">
           <i class="fas fa-cog"></i>
@@ -355,11 +334,11 @@
             <div class="preference-item">
               <label>Theme</label>
               <div class="theme-toggle">
-                <button class="btn" 
+                <button class="btn"
                         [class.btn-success]="preferences.theme === 'light'"
                         [class.btn-outline-secondary]="preferences.theme !== 'light'"
                         (click)="toggleTheme('light')">Light</button>
-                <button class="btn" 
+                <button class="btn"
                         [class.btn-success]="preferences.theme === 'dark'"
                         [class.btn-outline-secondary]="preferences.theme !== 'dark'"
                         (click)="toggleTheme('dark')">Dark</button>
@@ -369,19 +348,19 @@
               <label>Notification Methods</label>
               <div class="notification-options">
                 <label class="checkbox-label">
-                  <input type="checkbox" 
+                  <input type="checkbox"
                          [checked]="preferences.notifications.email"
                          (change)="toggleNotification('email')">
                   Email
                 </label>
                 <label class="checkbox-label">
-                  <input type="checkbox" 
+                  <input type="checkbox"
                          [checked]="preferences.notifications.sms"
                          (change)="toggleNotification('sms')">
                   SMS
                 </label>
                 <label class="checkbox-label">
-                  <input type="checkbox" 
+                  <input type="checkbox"
                          [checked]="preferences.notifications.inApp"
                          (change)="toggleNotification('inApp')">
                   In-app
@@ -404,13 +383,13 @@
               <div class="integration-item" *ngFor="let integration of integrations">
                 <div class="integration-info">
                   <h6>{{ integration.name }}</h6>
-                  <span class="status" 
+                  <span class="status"
                         [class.connected]="integration.status === 'Connected'"
                         [class.not-connected]="integration.status === 'Not Connected'">
                     {{ integration.status }}
                   </span>
                 </div>
-                <button class="btn btn-outline-primary btn-sm" 
+                <button class="btn btn-outline-primary btn-sm"
                         (click)="handleIntegrationAction(integration)">
                   {{ integration.action }}
                 </button>
@@ -432,9 +411,9 @@
               <h6>Two-Factor Authentication</h6>
               <p>Add an extra layer of security to your account.</p>
               <div class="toggle-switch">
-                <input type="checkbox" 
+                <input type="checkbox"
                        [checked]="security.twoFactorEnabled"
-                       (change)="toggleTwoFactor()" 
+                       (change)="toggleTwoFactor()"
                        id="twoFactor">
                 <label for="twoFactor" class="toggle-label"></label>
               </div>
@@ -468,4 +447,4 @@
       </div>
     </div>
   </div>
-</div>
+<app-footer></app-footer>
