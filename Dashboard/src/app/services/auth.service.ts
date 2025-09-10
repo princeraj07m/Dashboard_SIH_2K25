@@ -128,4 +128,40 @@ export class AuthService {
       });
     });
   }
+
+  // Demo login method for demonstration purposes
+  demoLogin(): void {
+    const demoUser: User = {
+      _id: 'demo-user-123',
+      fullName: 'John Demo Farmer',
+      email: 'demo@fertiarm.com',
+      phone: '+1 (555) 123-4567',
+      communication: 'English',
+      language: 'English',
+      farmName: 'Green Valley Farm',
+      farmLocation: 'California, USA',
+      farmSize: 150,
+      primaryCrops: ['Wheat', 'Corn', 'Soybeans'],
+      secondaryCrops: ['Sunflower', 'Barley'],
+      sprayerType: 'Hydraulic Boom Sprayer',
+      iotDevices: ['Soil Moisture Sensor', 'Weather Station', 'Crop Camera'],
+      machinery: ['Tractor', 'Sprayer', 'Seeder', 'Harvester'],
+      pesticides: [
+        { name: 'Glyphosate', frequency: 'Monthly' },
+        { name: 'Atrazine', frequency: 'Bi-weekly' },
+        { name: '2,4-D', frequency: 'As needed' }
+      ],
+      fertilizerPreference: 'Organic',
+      monthlyExpenditure: 5000,
+      farmingExperience: '10+ years',
+      createdAt: new Date('2020-01-15')
+    };
+
+    // Set a demo token for authentication
+    this.apiService.setToken('demo-token-12345');
+    this.currentUserSubject.next(demoUser);
+    
+    // Navigate to control panel to show the demo
+    this.router.navigate(['/main/control-panel']);
+  }
 }
