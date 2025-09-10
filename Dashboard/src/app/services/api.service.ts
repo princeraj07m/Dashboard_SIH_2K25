@@ -141,6 +141,12 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
+  // Get comprehensive app data
+  getAppData(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/app-data`)
+      .pipe(catchError(this.handleError));
+  }
+
   // Utility methods
   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
