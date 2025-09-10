@@ -5,11 +5,33 @@
   align-items: center;
   justify-content: center;
   min-height: 200px;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .loader-container {
+    min-height: 150px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loader-container {
+    min-height: 120px;
+    padding: 10px;
+  }
 }
 
 .loader {
   position: relative;
   animation: speeder 0.4s linear infinite;
+  will-change: transform;
+  transform: translateZ(0); /* Hardware acceleration */
+  margin: 0 auto;
+  display: block;
 }
 .loader > span {
   height: 5px;
@@ -170,6 +192,10 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .longfazers span {
   position: absolute;
@@ -240,4 +266,24 @@
   color: #333;
   text-align: center;
   font-weight: 500;
+  max-width: 90%;
+  word-wrap: break-word;
+}
+
+/* Mobile responsive message styling */
+@media (max-width: 768px) {
+  .loader-message {
+    font-size: 14px;
+    margin-top: 15px;
+    max-width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .loader-message {
+    font-size: 12px;
+    margin-top: 10px;
+    max-width: 100%;
+    padding: 0 10px;
+  }
 }
