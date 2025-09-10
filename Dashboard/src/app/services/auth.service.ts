@@ -109,4 +109,23 @@ export class AuthService {
   navigateToHome(): void {
     this.router.navigate(['/pages/home']);
   }
+
+  updateProfile(userData: User): Observable<AuthResponse> {
+    return new Observable(observer => {
+      this.apiService.updateProfile(userData).subscribe({
+        next: (response: AuthResponse) => {
+          if (response.success && response.user) {
+            this.currentUserSubject.next(response.user);
+            observer.next(response);
+            observer.complete();
+          } else {
+            observer.error(new Error(response.message || 'Profile update failed'));
+          }
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
+  }
 }

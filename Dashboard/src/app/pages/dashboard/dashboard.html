@@ -3,7 +3,7 @@
 
     <!-- Header -->
     <div class="d-flex mb-4">
-      <h3 class="fw-bold text-success">🌱 AgriGuard Dashboard</h3>
+      <h3 class="fw-bold text-success">{{ dashboardTitle }}</h3>
       <div class="d-flex gap-4 fs-5 text-muted">
         <i class="bi bi-bell"></i>
         <i class="bi bi-moon"></i>
@@ -13,43 +13,41 @@
 
     <!-- Farm Dropdown -->
     <div class="mb-4">
-      <label class="fw-bold fs-1 mb-2">Select Farm</label>
-      <select class="form-select fs-6 shadow-sm">
-        <option>Main Farm - Plot A</option>
-        <option>Farm B - Plot 2</option>
-        <option>Greenhouse Section</option>
+      <label class="fw-bold fs-1 mb-2">{{ farmSelectLabel }}</label>
+      <select class="form-select fs-6 shadow-sm" [(ngModel)]="selectedFarm">
+        <option *ngFor="let farm of farmOptions" [value]="farm">{{ farm }}</option>
       </select>
     </div>
 
     <!-- Status Overview -->
-    <h5 class="fw-bold fs-3 mb-3">📊 Status Overview</h5>
+    <h5 class="fw-bold fs-3 mb-3">{{ statusOverviewTitle }}</h5>
     <div class="row g-4 mb-5">
       <div class="col-6 col-lg-3">
         <div class="status-card">
           <p class="small text-muted mb-1">🌿 Total Plants</p>
-          <h3>1,200</h3>
-          <small class="text-muted">Across 3 fields</small>
+          <h3>{{ totalPlants }}</h3>
+          <small class="text-muted">{{ totalPlantsSubtitle }}</small>
         </div>
       </div>
       <div class="col-6 col-lg-3">
         <div class="status-card">
           <p class="small text-muted mb-1">✅ Healthy</p>
-          <h3 class="text-success">1,150</h3>
-          <small class="text-success">95% of total</small>
+          <h3 class="text-success">{{ healthyPlants }}</h3>
+          <small class="text-success">{{ healthyPlantsPercentage }}</small>
         </div>
       </div>
       <div class="col-6 col-lg-3">
         <div class="status-card">
           <p class="small text-muted mb-1">⚠️ Infected</p>
-          <h3 class="text-danger">50</h3>
-          <small class="text-danger">Mostly in Field B</small>
+          <h3 class="text-danger">{{ infectedPlants }}</h3>
+          <small class="text-danger">{{ infectedPlantsLocation }}</small>
         </div>
       </div>
       <div class="col-6 col-lg-3">
         <div class="status-card">
           <p class="small text-muted mb-1">🚜 Sprayers</p>
-          <h3 class="text-primary">2</h3>
-          <small class="text-muted">1 in maintenance</small>
+          <h3 class="text-primary">{{ sprayers }}</h3>
+          <small class="text-muted">{{ sprayersStatus }}</small>
         </div>
       </div>
     </div>
@@ -58,8 +56,7 @@
     <h5 class="fw-bold mb-3">🗺️ Interactive Farm Map</h5>
     <div class="map-placeholder mb-3"></div>
     <p class="fs-5 text-muted">
-      Tip: Zoom into fields to check <span class="fw-semibold">plant clusters</span> and infection spread.
-      Click on hotspots for details.
+      {{ mapTip }}<span class="fw-semibold">{{ mapTipHighlight }}</span>{{ mapTipEnd }}
     </p>
 
   </div>

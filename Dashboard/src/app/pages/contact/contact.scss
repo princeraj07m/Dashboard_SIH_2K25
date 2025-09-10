@@ -1,0 +1,77 @@
+.container {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.card {
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border: 1px solid #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #28a745; /* Green color from profile.scss */
+  font-weight: bold;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #2e2e2e;
+  font-style: italic;
+}
+
+.form-control,
+.form-select {
+  border-radius: 12px;
+  padding: 10px 14px;
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 15px rgba(40, 167, 69, 0.5);
+    transform: scale(1.01);
+}
+
+.btn-success {
+  background-image: linear-gradient(to right, #1D976C 0%, #93F9B9  51%, #1D976C  100%);
+  border: none;
+  padding: 12px 30px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+}
+.btn-success:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+  transform: scale(1.05);
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+  border-radius: 10px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-color: #f5c6cb;
+  border-radius: 10px;
+}
+
+/* Inherit body styles from profile.scss for consistent theme */
+body {
+  background: linear-gradient(45deg, #f3ec78, #af4261); /* Example gradient */
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}

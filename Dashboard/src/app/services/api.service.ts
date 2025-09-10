@@ -8,6 +8,7 @@ export interface User {
   _id?: string;
   fullName: string;
   email: string;
+  password?: string; // Make password optional for profile updates
   phone: string;
   communication?: string;
   language?: string;
@@ -26,6 +27,7 @@ export interface User {
   fertilizerPreference?: string;
   monthlyExpenditure?: number;
   createdAt?: Date;
+  farmingExperience: string;
 }
 
 export interface LoginRequest {
@@ -54,6 +56,7 @@ export interface RegisterRequest {
   }>;
   fertilizerPreference?: string;
   monthlyExpenditure?: number;
+  farmingExperience: string;
 }
 
 export interface AuthResponse {
@@ -90,7 +93,7 @@ export class ApiService {
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred!';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = `Error: ${error.error.message}`;
@@ -98,7 +101,7 @@ export class ApiService {
       // Server-side error
       console.error('Full backend error response:', error.error);
       console.error('Error status:', error.status);
-      
+
       if (error.error && error.error.message) {
         errorMessage = error.error.message;
         // Add detailed validation errors if available
@@ -116,7 +119,7 @@ export class ApiService {
         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
       }
     }
-    
+
     return throwError(() => new Error(errorMessage));
   }
 
@@ -141,9 +144,8 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
-  // Get comprehensive app data
-  getAppData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/app-data`)
+  updateProfile(userData: User): Observable<AuthResponse> {
+    return this.http.put<AuthResponse>(`${this.apiUrl}/profile`, userData, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
 

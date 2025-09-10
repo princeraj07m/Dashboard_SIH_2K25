@@ -5,3 +5,28 @@
   .offcanvas {
     background: #ffffff;
   }
+/* Prevent offcanvas from closing when clicking links */
+.offcanvas-start {
+    touch-action: none;
+}
+
+/* Enable scrolling when offcanvas is open */
+body.offcanvas-active {
+    overflow: visible !important;
+}
+
+/* Allow smooth scrolling after offcanvas closes */
+body {
+    transition: overflow 0.3s ease-in-out;
+}
+
+/* Prevent vertical scrolling when offcanvas is open */
+body.offcanvas-active {
+    overflow-y: auto;
+}
+
+/* Ensure content is touch-friendly */
+html {
+    touch-action: pan-y;
+    overflow-y: auto;
+}
