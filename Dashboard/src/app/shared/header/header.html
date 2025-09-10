@@ -99,6 +99,11 @@
   <ng-container *ngIf="isLoggedIn">
     <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
        data-bs-dismiss="offcanvas"
+       routerLink="/main/control-panel">
+      <i class="fa-solid fa-table-columns me-2 text-success"></i> Control Panel
+    </a>
+    <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+       data-bs-dismiss="offcanvas"
        (click)="navigateToProfile()">
       <i class="fa-solid fa-user-edit me-2 text-success"></i> Edit Profile
     </a>
