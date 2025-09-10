@@ -143,6 +143,11 @@ export class ApiService {
     return this.http.get<UsersResponse>(`${this.apiUrl}/users`, { headers: this.getHeaders() })
       .pipe(catchError(this.handleError));
   }
+   // Get comprehensive app data
+  getAppData(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/app-data`)
+      .pipe(catchError(this.handleError));
+  }
 
   updateProfile(userData: User): Observable<AuthResponse> {
     return this.http.put<AuthResponse>(`${this.apiUrl}/profile`, userData, { headers: this.getHeaders() })
