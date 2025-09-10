@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
-    App
+    App,
   ],
   imports: [
     BrowserModule,

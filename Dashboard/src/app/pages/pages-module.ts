@@ -15,6 +15,9 @@ import { Features } from './features/features';
 import { Contact } from './contact/contact';
 import { About } from './about/about';
 import { SharedModule } from '../shared/shared-module';
+import { FieldLayoutComponent } from './field-layout.component/field-layout.component';
+import { FieldLayoutDemoComponent } from './field-layout-demo/field-layout-demo';
+import { UserProfileComponent } from './user-profile/user-profile';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { SharedModule } from '../shared/shared-module';
     Features,
     Contact,
     About,
+    FieldLayoutComponent,
+    FieldLayoutDemoComponent,
+    UserProfileComponent,
   ],
   imports: [
     CommonModule,

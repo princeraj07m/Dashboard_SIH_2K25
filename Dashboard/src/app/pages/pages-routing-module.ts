@@ -11,7 +11,9 @@ import { Profile } from './profile/profile';
 import { Features } from './features/features';
 import { Contact } from './contact/contact';
 import { About } from './about/about';
-
+import { FieldLayoutComponent } from '../pages/field-layout.component/field-layout.component';
+import { FieldLayoutDemoComponent } from '../pages/field-layout-demo/field-layout-demo';
+import { UserProfileComponent } from '../pages/user-profile/user-profile';
 const routes: Routes = [
   {
     path: '',
@@ -20,6 +22,18 @@ const routes: Routes = [
   {
     path: 'features',
     component: Features
+  },
+  {
+    path: 'fieldlayout',
+    component: FieldLayoutComponent
+  },
+  {
+    path: 'field-demo',
+    component: FieldLayoutDemoComponent
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent
   },
   {
     path: 'contact',
