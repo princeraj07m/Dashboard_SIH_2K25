@@ -350,6 +350,234 @@
   }
 }
 
+// New styles for enhanced functionality
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 1rem;
+
+  .select-all {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    input[type="checkbox"] {
+      margin: 0;
+    }
+    
+    label {
+      margin: 0;
+      font-weight: 500;
+      color: #495057;
+    }
+  }
+
+  .notification-count {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+}
+
+.notification-checkbox {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  
+  input[type="checkbox"] {
+    margin: 0;
+    transform: scale(1.2);
+  }
+  
+  label {
+    margin: 0;
+    cursor: pointer;
+  }
+}
+
+.notification-item {
+  &.selected {
+    background-color: #e3f2fd !important;
+    border-left-color: #2196f3 !important;
+  }
+}
+
+.notification-meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.notification-category {
+  background: #f8f9fa;
+  color: #495057;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.notification-priority {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  
+  &.priority-high {
+    background: #ffebee;
+    color: #c62828;
+  }
+  
+  &.priority-medium {
+    background: #fff3e0;
+    color: #ef6c00;
+  }
+  
+  &.priority-low {
+    background: #e8f5e8;
+    color: #2e7d32;
+  }
+}
+
+.notification-source {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.action-icon {
+  margin-right: 0.25rem;
+}
+
+.bulk-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.bulk-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ced4da;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: #f8f9fa;
+  }
+  
+  &.danger {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+    
+    &:hover {
+      background: #c82333;
+    }
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 0.25rem;
+    
+    &.unread {
+      color: #dc3545;
+    }
+    
+    &.critical {
+      color: #dc3545;
+    }
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.report-success {
+  background: #d4edda;
+  color: #155724;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.no-notifications {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+  
+  .no-notifications-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    margin: 0 0 1rem 0;
+  }
+}
+
+// Enhanced notification type styles
+.notification-item {
+  &.notification-critical {
+    border-left-color: #dc3545;
+    background-color: #fff5f5;
+    
+    &:hover {
+      background-color: #ffebee;
+    }
+  }
+  
+  &.notification-warning {
+    border-left-color: #ffc107;
+    background-color: #fffbf0;
+    
+    &:hover {
+      background-color: #fff8e1;
+    }
+  }
+  
+  &.notification-info {
+    border-left-color: #17a2b8;
+    background-color: #f0f8ff;
+    
+    &:hover {
+      background-color: #e3f2fd;
+    }
+  }
+}
+
 // Responsive Design
 @media (max-width: 768px) {
   .notifications-container {
@@ -370,8 +598,10 @@
     align-items: flex-start;
   }
   
-  .notification-time {
-    margin-top: 0.25rem;
+  .notification-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
   }
   
   .filters {
@@ -379,8 +609,27 @@
     align-items: stretch;
   }
   
+  .bulk-actions {
+    margin-left: 0;
+    justify-content: center;
+  }
+  
   .mark-all-read {
     margin-left: 0;
+    justify-content: center;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .notification-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .action-btn {
+    width: 100%;
     justify-content: center;
   }
 }

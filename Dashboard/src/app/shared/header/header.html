@@ -20,6 +20,7 @@
             <li class="nav-item px-2"><a class="nav-link text-success fw-semibold"  routerLink="/pages/about">About</a></li>
             <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/features">Features</a></li>
             <li class="nav-item px-2"><a class="nav-link text-success fw-semibold"  routerLink="/pages/contact">Contact</a></li>
+            <li class="nav-item px-2"><a class="nav-link text-success fw-semibold"  routerLink="/pages/weather">Weather</a></li>
 
             <ng-container *ngIf="!isLoggedIn">
                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/auth/login">Login</a></li>
@@ -37,6 +38,9 @@
             <ng-container *ngIf="isLoggedIn">
                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/field-demo">Field Layout</a></li>
                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/crop-cycles">Crop Cycles</a></li>
+                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/weather">Weather</a></li>
+                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/dashboard">Dashboard</a></li>
+
                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/main/control-panel">Control Panel</a></li>
                  <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/notifications">Notifications</a></li>
 
@@ -87,6 +91,16 @@
     <i class="fa-solid fa-envelope me-2 text-success"></i> Contact
   </a>
 
+  <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+     data-bs-dismiss="offcanvas"
+     routerLink="/pages/weather">
+    <i class="fa-solid fa-cloud-sun me-2 text-success"></i> Weather
+  </a>
+  <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+     data-bs-dismiss="offcanvas"
+     routerLink="/pages/dashboard">
+    <i class="fa-solid fa-cloud-sun me-2 text-success"></i> Dashboard
+  </a>
   <ng-container *ngIf="!isLoggedIn">
     <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
        data-bs-dismiss="offcanvas"
@@ -117,6 +131,11 @@
        data-bs-dismiss="offcanvas"
        routerLink="/pages/crop-cycles">
       <i class="fa-solid fa-seedling me-2 text-success"></i> Crop Cycles
+    </a>
+    <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+       data-bs-dismiss="offcanvas"
+       routerLink="/pages/weather">
+      <i class="fa-solid fa-cloud-sun me-2 text-success"></i> Weather
     </a>
     <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
        data-bs-dismiss="offcanvas"

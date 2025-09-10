@@ -16,6 +16,7 @@ import { FieldLayoutDemoComponent } from '../pages/field-layout-demo/field-layou
 import { UserProfileComponent } from '../pages/user-profile/user-profile';
 import { NotificationsComponent } from '../pages/notifications/notifications';
 import { CropCycleComponent } from '../pages/crop-cycle/crop-cycle';
+import { Weather } from '../pages/weather/weather';
 const routes: Routes = [
   {
     path: '',
@@ -80,6 +81,10 @@ const routes: Routes = [
   {
     path: 'users',
     component: Users
+  },
+  {
+    path: 'weather',
+    component: Weather
   }
 ];
 

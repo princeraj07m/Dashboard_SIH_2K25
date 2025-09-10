@@ -1,23 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 export interface Notification {
   id: string;
-  type: 'critical' | 'normal' | 'system';
+  type: 'critical' | 'normal' | 'system' | 'warning' | 'info';
+  priority: 'high' | 'medium' | 'low';
   title: string;
   description: string;
-  timestamp: string;
+  timestamp: Date;
   icon: string;
   iconColor: string;
   isRead: boolean;
+  isArchived: boolean;
+  category: string;
+  source: string;
   actions?: NotificationAction[];
+  metadata?: any;
 }
 
 export interface NotificationAction {
   label: string;
-  type: 'primary' | 'secondary';
+  type: 'primary' | 'secondary' | 'danger' | 'success';
   action: () => void;
+  icon?: string;
+}
+
+export interface NotificationPreferences {
+  criticalAlerts: boolean;
+  normalAlerts: boolean;
+  systemUpdates: boolean;
+  warningAlerts: boolean;
+  infoAlerts: boolean;
+  emailNotifications: boolean;
+  pushNotifications: boolean;
+  soundEnabled: boolean;
+}
+
+export interface NotificationStats {
+  total: number;
+  unread: number;
+  critical: number;
+  today: number;
+  thisWeek: number;
+  thisMonth: number;
 }
 
 @Component({
@@ -26,121 +52,209 @@ export interface NotificationAction {
   styleUrls: ['./notifications.scss'],
   standalone: false
 })
-export class NotificationsComponent implements OnInit {
+export class NotificationsComponent implements OnInit, OnDestroy {
   activeTab: string = 'current';
   activeFilter: string = 'all';
   searchQuery: string = '';
   markAllAsRead: boolean = false;
+  showPreferences: boolean = false;
+  showStats: boolean = false;
+  isGeneratingReport: boolean = false;
+  reportGenerated: boolean = false;
+  notificationSound: HTMLAudioElement | null = null;
+  private updateInterval: any;
   
   notifications: Notification[] = [
     {
       id: '1',
       type: 'critical',
-      title: 'Low Water Level',
-      description: 'Water level in the south field irrigation system is critically low. Immediate action required to prevent crop damage.',
-      timestamp: '2 hours ago',
+      priority: 'high',
+      title: 'Low Water Level Alert',
+      description: 'Water level in the south field irrigation system is critically low at 15%. Immediate action required to prevent crop damage.',
+      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
       icon: '💧',
       iconColor: '#dc3545',
       isRead: false,
+      isArchived: false,
+      category: 'Irrigation',
+      source: 'Sensor Network',
+      metadata: { field: 'South Field', level: 15, threshold: 20 },
       actions: [
-        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('1') },
-        { label: 'Resolve', type: 'primary', action: () => this.resolveNotification('1') }
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('1'), icon: '✕' },
+        { label: 'Resolve', type: 'primary', action: () => this.resolveNotification('1'), icon: '✓' },
+        { label: 'View Details', type: 'success', action: () => this.viewDetails('1'), icon: '👁️' }
       ]
     },
     {
       id: '2',
       type: 'critical',
-      title: 'Livestock Alert',
-      description: 'One of your cows, Betsy, has wandered outside the designated grazing area. Please check her location and ensure she\'s safely back.',
-      timestamp: '4 hours ago',
+      priority: 'high',
+      title: 'Livestock Location Alert',
+      description: 'Cow "Betsy" (ID: 001) has wandered outside the designated grazing area. GPS shows location 200m from boundary.',
+      timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
       icon: '🐄',
       iconColor: '#dc3545',
       isRead: false,
+      isArchived: false,
+      category: 'Livestock',
+      source: 'GPS Tracker',
+      metadata: { animalId: '001', distance: 200, boundary: 'North Pasture' },
       actions: [
-        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('2') },
-        { label: 'Check Location', type: 'primary', action: () => this.checkLocation('2') }
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('2'), icon: '✕' },
+        { label: 'Check Location', type: 'primary', action: () => this.checkLocation('2'), icon: '📍' },
+        { label: 'Send Alert', type: 'danger', action: () => this.sendAlert('2'), icon: '📢' }
       ]
     },
     {
       id: '3',
-      type: 'critical',
-      title: 'Greenhouse Temperature',
-      description: 'The temperature in the greenhouse is higher than the optimal range for your tomato plants. Adjust ventilation to avoid stress.',
-      timestamp: '6 hours ago',
+      type: 'warning',
+      priority: 'medium',
+      title: 'Greenhouse Temperature High',
+      description: 'Temperature in Greenhouse A is 32°C, exceeding optimal range (18-28°C) for tomato plants. Adjust ventilation immediately.',
+      timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
       icon: '🌡️',
-      iconColor: '#dc3545',
+      iconColor: '#ffc107',
       isRead: false,
+      isArchived: false,
+      category: 'Environment',
+      source: 'Climate Control',
+      metadata: { temperature: 32, optimalMin: 18, optimalMax: 28, greenhouse: 'A' },
       actions: [
-        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('3') },
-        { label: 'Adjust Settings', type: 'primary', action: () => this.adjustSettings('3') }
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('3'), icon: '✕' },
+        { label: 'Adjust Settings', type: 'primary', action: () => this.adjustSettings('3'), icon: '⚙️' }
       ]
     },
     {
       id: '4',
-      type: 'normal',
-      title: 'Weather Update',
-      description: 'The weather forecast predicts heavy rain for the next two days. Consider implementing flood prevention measures for low-lying fields.',
-      timestamp: '1 day ago',
+      type: 'info',
+      priority: 'low',
+      title: 'Weather Forecast Update',
+      description: 'Heavy rainfall (40mm) predicted for next 48 hours. Consider implementing flood prevention measures for low-lying fields.',
+      timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
       icon: '🌧️',
-      iconColor: '#ffc107',
+      iconColor: '#17a2b8',
       isRead: true,
+      isArchived: false,
+      category: 'Weather',
+      source: 'Weather Service',
+      metadata: { rainfall: 40, duration: 48, affectedFields: ['Field C', 'Field D'] },
       actions: [
-        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('4') }
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('4'), icon: '✕' },
+        { label: 'View Forecast', type: 'success', action: () => this.viewForecast('4'), icon: '📊' }
       ]
     },
     {
       id: '5',
       type: 'system',
-      title: 'Software Update',
-      description: 'A new software update is available for your AgriTrack system. Update now to access the latest features and improvements.',
-      timestamp: '2 days ago',
+      priority: 'medium',
+      title: 'System Update Available',
+      description: 'AgriTrack v2.1.3 is available with new features: enhanced analytics, improved mobile app, and bug fixes.',
+      timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
       icon: '⬇️',
       iconColor: '#007bff',
       isRead: true,
+      isArchived: false,
+      category: 'System',
+      source: 'Update Service',
+      metadata: { version: '2.1.3', size: '45MB', features: ['Analytics', 'Mobile App', 'Bug Fixes'] },
       actions: [
-        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('5') },
-        { label: 'Update Now', type: 'primary', action: () => this.updateSoftware('5') }
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('5'), icon: '✕' },
+        { label: 'Update Now', type: 'primary', action: () => this.updateSoftware('5'), icon: '⬇️' },
+        { label: 'Schedule', type: 'success', action: () => this.scheduleUpdate('5'), icon: '⏰' }
       ]
     },
     {
       id: '6',
       type: 'normal',
-      title: 'Harvest Reminder',
-      description: 'Your wheat crop in Field A is ready for harvest. Optimal harvest window is 3-5 days.',
-      timestamp: '3 days ago',
+      priority: 'medium',
+      title: 'Harvest Window Opening',
+      description: 'Wheat crop in Field A is ready for harvest. Optimal window: 3-5 days. Moisture content: 18% (target: 14-16%).',
+      timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
       icon: '🌾',
-      iconColor: '#ffc107',
+      iconColor: '#28a745',
       isRead: true,
+      isArchived: false,
+      category: 'Crop Management',
+      source: 'Crop Monitoring',
+      metadata: { crop: 'Wheat', field: 'A', moisture: 18, targetMin: 14, targetMax: 16 },
       actions: [
-        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('6') },
-        { label: 'Schedule Harvest', type: 'primary', action: () => this.scheduleHarvest('6') }
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('6'), icon: '✕' },
+        { label: 'Schedule Harvest', type: 'primary', action: () => this.scheduleHarvest('6'), icon: '📅' }
       ]
     },
     {
       id: '7',
       type: 'system',
-      title: 'Backup Complete',
-      description: 'Daily backup of your farm data has been completed successfully. All data is secure.',
-      timestamp: '4 days ago',
+      priority: 'low',
+      title: 'Backup Completed Successfully',
+      description: 'Daily backup completed at 02:00 AM. 2.3GB of data backed up to cloud storage. All systems secure.',
+      timestamp: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000), // 4 days ago
       icon: '💾',
-      iconColor: '#007bff',
+      iconColor: '#6c757d',
       isRead: true,
+      isArchived: false,
+      category: 'System',
+      source: 'Backup Service',
+      metadata: { size: '2.3GB', time: '02:00', location: 'Cloud Storage' },
       actions: [
-        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('7') }
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('7'), icon: '✕' }
       ]
     },
     {
       id: '8',
       type: 'critical',
-      title: 'Pest Detection',
-      description: 'Unusual pest activity detected in Field B. Immediate inspection and treatment recommended.',
-      timestamp: '5 days ago',
+      priority: 'high',
+      title: 'Pest Infestation Detected',
+      description: 'Aphid infestation detected in Field B (Tomato section). Population density: 15 insects/leaf. Immediate treatment required.',
+      timestamp: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
       icon: '🐛',
       iconColor: '#dc3545',
       isRead: true,
+      isArchived: false,
+      category: 'Pest Control',
+      source: 'Pest Monitoring',
+      metadata: { pest: 'Aphids', field: 'B', section: 'Tomato', density: 15, threshold: 5 },
       actions: [
-        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('8') },
-        { label: 'Inspect Field', type: 'primary', action: () => this.inspectField('8') }
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('8'), icon: '✕' },
+        { label: 'Inspect Field', type: 'primary', action: () => this.inspectField('8'), icon: '🔍' },
+        { label: 'Order Treatment', type: 'danger', action: () => this.orderTreatment('8'), icon: '🛒' }
+      ]
+    },
+    {
+      id: '9',
+      type: 'info',
+      priority: 'low',
+      title: 'Soil Moisture Optimal',
+      description: 'Soil moisture levels in all fields are within optimal range (60-80%). No irrigation needed for next 24 hours.',
+      timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+      icon: '🌱',
+      iconColor: '#28a745',
+      isRead: false,
+      isArchived: false,
+      category: 'Soil Monitoring',
+      source: 'Soil Sensors',
+      metadata: { moisture: 70, range: '60-80%', fields: 'All' },
+      actions: [
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('9'), icon: '✕' }
+      ]
+    },
+    {
+      id: '10',
+      type: 'warning',
+      priority: 'medium',
+      title: 'Equipment Maintenance Due',
+      description: 'Tractor #3 is due for scheduled maintenance. Next service: 50 hours or 2 weeks. Book appointment now.',
+      timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
+      icon: '🚜',
+      iconColor: '#ffc107',
+      isRead: true,
+      isArchived: false,
+      category: 'Equipment',
+      source: 'Maintenance System',
+      metadata: { equipment: 'Tractor #3', hoursRemaining: 50, daysRemaining: 14 },
+      actions: [
+        { label: 'Dismiss', type: 'secondary', action: () => this.dismissNotification('10'), icon: '✕' },
+        { label: 'Book Service', type: 'primary', action: () => this.bookService('10'), icon: '📅' }
       ]
     }
   ];
@@ -148,10 +262,39 @@ export class NotificationsComponent implements OnInit {
   filteredNotifications: Notification[] = [];
   criticalCount: number = 0;
   reportPeriod: string = 'last7days';
+  preferences: NotificationPreferences = {
+    criticalAlerts: true,
+    normalAlerts: true,
+    systemUpdates: true,
+    warningAlerts: true,
+    infoAlerts: true,
+    emailNotifications: true,
+    pushNotifications: true,
+    soundEnabled: true
+  };
+  stats: NotificationStats = {
+    total: 0,
+    unread: 0,
+    critical: 0,
+    today: 0,
+    thisWeek: 0,
+    thisMonth: 0
+  };
+  selectedNotifications: string[] = [];
+  showBulkActions: boolean = false;
 
   ngOnInit() {
+    this.loadPreferences();
     this.updateFilteredNotifications();
-    this.updateCriticalCount();
+    this.updateStats();
+    this.initializeSound();
+    this.startRealTimeUpdates();
+  }
+
+  ngOnDestroy() {
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+    }
   }
 
   setActiveTab(tab: string) {
@@ -192,8 +335,21 @@ export class NotificationsComponent implements OnInit {
     this.filteredNotifications = filtered;
   }
 
-  updateCriticalCount() {
-    this.criticalCount = this.notifications.filter(n => n.type === 'critical' && !n.isRead).length;
+  updateStats() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+    this.stats = {
+      total: this.notifications.length,
+      unread: this.notifications.filter(n => !n.isRead).length,
+      critical: this.notifications.filter(n => n.type === 'critical' && !n.isRead).length,
+      today: this.notifications.filter(n => n.timestamp >= today).length,
+      thisWeek: this.notifications.filter(n => n.timestamp >= weekAgo).length,
+      thisMonth: this.notifications.filter(n => n.timestamp >= monthAgo).length
+    };
+    this.criticalCount = this.stats.critical;
   }
 
   onSearchChange() {
@@ -205,7 +361,7 @@ export class NotificationsComponent implements OnInit {
     if (this.markAllAsRead) {
       this.notifications.forEach(n => n.isRead = true);
       this.updateFilteredNotifications();
-      this.updateCriticalCount();
+      this.updateStats();
     }
   }
 
@@ -214,7 +370,7 @@ export class NotificationsComponent implements OnInit {
     if (notification) {
       notification.isRead = true;
       this.updateFilteredNotifications();
-      this.updateCriticalCount();
+      this.updateStats();
     }
   }
 
@@ -255,13 +411,51 @@ export class NotificationsComponent implements OnInit {
   }
 
   generateReport() {
-    console.log('Generating report for period:', this.reportPeriod);
-    // Add report generation logic here
+    this.isGeneratingReport = true;
+    setTimeout(() => {
+      this.isGeneratingReport = false;
+      this.reportGenerated = true;
+      this.showSuccessMessage('Report generated successfully!');
+    }, 2000);
   }
 
-  savePreferences() {
-    console.log('Saving notification preferences');
-    // Add preferences saving logic here
+  // Action methods for notifications
+  viewDetails(id: string) {
+    const notification = this.notifications.find(n => n.id === id);
+    if (notification) {
+      console.log('Viewing details for notification:', notification);
+      this.showSuccessMessage(`Viewing details for: ${notification.title}`);
+    }
+  }
+
+  sendAlert(id: string) {
+    console.log('Sending alert for notification:', id);
+    this.showSuccessMessage('Alert sent to field team!');
+    this.dismissNotification(id);
+  }
+
+  viewForecast(id: string) {
+    console.log('Viewing weather forecast for notification:', id);
+    this.showSuccessMessage('Opening weather forecast...');
+    this.dismissNotification(id);
+  }
+
+  scheduleUpdate(id: string) {
+    console.log('Scheduling update for notification:', id);
+    this.showSuccessMessage('Update scheduled for tonight at 2 AM');
+    this.dismissNotification(id);
+  }
+
+  orderTreatment(id: string) {
+    console.log('Ordering treatment for notification:', id);
+    this.showSuccessMessage('Treatment order placed! Expected delivery: 2-3 days');
+    this.dismissNotification(id);
+  }
+
+  bookService(id: string) {
+    console.log('Booking service for notification:', id);
+    this.showSuccessMessage('Service appointment booked for next week');
+    this.dismissNotification(id);
   }
 
   getNotificationTypeClass(type: string): string {
@@ -273,7 +467,108 @@ export class NotificationsComponent implements OnInit {
     }
   }
 
-  getTimeAgo(timestamp: string): string {
-    return timestamp;
+  getTimeAgo(timestamp: Date): string {
+    const now = new Date();
+    const diffInMs = now.getTime() - timestamp.getTime();
+    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''} ago`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
+    } else if (diffInDays < 7) {
+      return `${diffInDays} day${diffInDays !== 1 ? 's' : ''} ago`;
+    } else {
+      return timestamp.toLocaleDateString();
+    }
+  }
+
+  // New functionality methods
+  loadPreferences() {
+    const saved = localStorage.getItem('notificationPreferences');
+    if (saved) {
+      this.preferences = { ...this.preferences, ...JSON.parse(saved) };
+    }
+  }
+
+  savePreferences() {
+    localStorage.setItem('notificationPreferences', JSON.stringify(this.preferences));
+    this.showPreferences = false;
+    this.showSuccessMessage('Preferences saved successfully!');
+  }
+
+  initializeSound() {
+    if (this.preferences.soundEnabled) {
+      this.notificationSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+    }
+  }
+
+  startRealTimeUpdates() {
+    this.updateInterval = setInterval(() => {
+      this.updateStats();
+      this.updateFilteredNotifications();
+    }, 30000); // Update every 30 seconds
+  }
+
+  showSuccessMessage(message: string) {
+    // Simple alert for now, could be enhanced with toast notifications
+    alert(message);
+  }
+
+  toggleNotificationSelection(id: string) {
+    const index = this.selectedNotifications.indexOf(id);
+    if (index > -1) {
+      this.selectedNotifications.splice(index, 1);
+    } else {
+      this.selectedNotifications.push(id);
+    }
+    this.showBulkActions = this.selectedNotifications.length > 0;
+  }
+
+  selectAllNotifications() {
+    this.selectedNotifications = this.filteredNotifications.map(n => n.id);
+    this.showBulkActions = this.selectedNotifications.length > 0;
+  }
+
+  clearSelection() {
+    this.selectedNotifications = [];
+    this.showBulkActions = false;
+  }
+
+  bulkMarkAsRead() {
+    this.selectedNotifications.forEach(id => {
+      const notification = this.notifications.find(n => n.id === id);
+      if (notification) {
+        notification.isRead = true;
+      }
+    });
+    this.updateStats();
+    this.updateFilteredNotifications();
+    this.clearSelection();
+    this.showSuccessMessage(`${this.selectedNotifications.length} notifications marked as read`);
+  }
+
+  bulkDelete() {
+    this.notifications = this.notifications.filter(n => !this.selectedNotifications.includes(n.id));
+    this.updateStats();
+    this.updateFilteredNotifications();
+    this.clearSelection();
+    this.showSuccessMessage(`${this.selectedNotifications.length} notifications deleted`);
+  }
+
+  bulkArchive() {
+    this.selectedNotifications.forEach(id => {
+      const notification = this.notifications.find(n => n.id === id);
+      if (notification) {
+        notification.isArchived = true;
+        notification.isRead = true;
+      }
+    });
+    this.updateStats();
+    this.updateFilteredNotifications();
+    this.clearSelection();
+    this.showSuccessMessage(`${this.selectedNotifications.length} notifications archived`);
   }
 }

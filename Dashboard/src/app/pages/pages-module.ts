@@ -20,6 +20,7 @@ import { FieldLayoutDemoComponent } from './field-layout-demo/field-layout-demo'
 import { UserProfileComponent } from './user-profile/user-profile';
 import { NotificationsComponent } from './notifications/notifications';
 import { CropCycleComponent } from './crop-cycle/crop-cycle';
+import { Weather } from './weather/weather';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { CropCycleComponent } from './crop-cycle/crop-cycle';
     UserProfileComponent,
     NotificationsComponent,
     CropCycleComponent,
+    Weather,
   ],
   imports: [
     CommonModule,
