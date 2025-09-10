@@ -14,6 +14,8 @@ import { About } from './about/about';
 import { FieldLayoutComponent } from '../pages/field-layout.component/field-layout.component';
 import { FieldLayoutDemoComponent } from '../pages/field-layout-demo/field-layout-demo';
 import { UserProfileComponent } from '../pages/user-profile/user-profile';
+import { NotificationsComponent } from '../pages/notifications/notifications';
+import { CropCycleComponent } from '../pages/crop-cycle/crop-cycle';
 const routes: Routes = [
   {
     path: '',
@@ -34,6 +36,14 @@ const routes: Routes = [
   {
     path: 'user-profile',
     component: UserProfileComponent
+  },
+  {
+    path: 'notifications',
+    component: NotificationsComponent
+  },
+  {
+    path: 'crop-cycles',
+    component: CropCycleComponent
   },
   {
     path: 'contact',

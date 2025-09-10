@@ -18,6 +18,8 @@ import { SharedModule } from '../shared/shared-module';
 import { FieldLayoutComponent } from './field-layout.component/field-layout.component';
 import { FieldLayoutDemoComponent } from './field-layout-demo/field-layout-demo';
 import { UserProfileComponent } from './user-profile/user-profile';
+import { NotificationsComponent } from './notifications/notifications';
+import { CropCycleComponent } from './crop-cycle/crop-cycle';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { UserProfileComponent } from './user-profile/user-profile';
     FieldLayoutComponent,
     FieldLayoutDemoComponent,
     UserProfileComponent,
+    NotificationsComponent,
+    CropCycleComponent,
   ],
   imports: [
     CommonModule,

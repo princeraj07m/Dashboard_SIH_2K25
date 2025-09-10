@@ -20,6 +20,7 @@
             <li class="nav-item px-2"><a class="nav-link text-success fw-semibold"  routerLink="/pages/about">About</a></li>
             <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/features">Features</a></li>
             <li class="nav-item px-2"><a class="nav-link text-success fw-semibold"  routerLink="/pages/contact">Contact</a></li>
+
             <ng-container *ngIf="!isLoggedIn">
                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/auth/login">Login</a></li>
                 <li class="nav-item px-2">
@@ -35,8 +36,12 @@
             </ng-container>
             <ng-container *ngIf="isLoggedIn">
                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/field-demo">Field Layout</a></li>
+                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/crop-cycles">Crop Cycles</a></li>
                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/main/control-panel">Control Panel</a></li>
+                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/notifications">Notifications</a></li>
+
                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" (click)="navigateToProfile()">Edit Profile</a></li>
+
                 <li class="nav-item px-2">
                     <button class="btn btn-outline-success px-3 ms-2 rounded-pill shadow-sm" routerLink="/pages/user-profile">
                         Profile
@@ -110,8 +115,18 @@
     </a>
     <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
        data-bs-dismiss="offcanvas"
+       routerLink="/pages/crop-cycles">
+      <i class="fa-solid fa-seedling me-2 text-success"></i> Crop Cycles
+    </a>
+    <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+       data-bs-dismiss="offcanvas"
        routerLink="/main/control-panel">
       <i class="fa-solid fa-table-columns me-2 text-success"></i> Control Panel
+    </a>
+    <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
+       data-bs-dismiss="offcanvas"
+       routerLink="/pages/notifications">
+      <i class="fa-solid fa-table-columns me-2 text-success"></i> Notifications
     </a>
     <a class="nav-link text-dark fw-semibold px-3 py-2 rounded hover-bg"
        data-bs-dismiss="offcanvas"
