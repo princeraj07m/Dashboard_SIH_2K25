@@ -38,7 +38,8 @@ const userSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    enum: ['English', 'Spanish', 'French', 'Portuguese', 'Hindi', 'Other'],
+    // Support languages shown in the Angular form plus previous options
+    enum: ['English', 'Hindi', 'Other', 'Spanish', 'French', 'Portuguese', 'हिंदी', 'தமிழ்', 'తెలుగు'],
     default: 'English'
   },
 
@@ -71,7 +72,12 @@ const userSchema = new mongoose.Schema({
   // Step 4: Equipment Info
   sprayerType: {
     type: String,
-    enum: ['Manual', 'Battery-powered', 'Fuel-powered', 'Tractor-mounted', 'Drone', 'Knapsack Sprayer', 'Backpack Sprayer', 'Handheld Sprayer', 'Pump Sprayer', 'Compression Sprayer', 'None']
+    // Allow both legacy values and those used by the Angular form
+    enum: [
+      'Manual', 'Battery-powered', 'Fuel-powered', 'Tractor-mounted', 'Drone',
+      'Knapsack Sprayer', 'Backpack Sprayer', 'Handheld Sprayer', 'Pump Sprayer', 'Compression Sprayer', 'None',
+      'Boom Sprayer', 'Airblast Sprayer', 'Drone Sprayer'
+    ]
   },
   iotDevices: [{
     type: String,
@@ -95,7 +101,8 @@ const userSchema = new mongoose.Schema({
   }],
   fertilizerPreference: {
     type: String,
-    enum: ['Organic', 'Synthetic', 'Mixed', 'None']
+    // Support options used by the Angular form and legacy ones
+    enum: ['Organic', 'Chemical', 'Both', 'Synthetic', 'Mixed', 'None']
   },
   monthlyExpenditure: {
     type: Number,

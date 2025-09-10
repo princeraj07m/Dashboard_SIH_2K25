@@ -230,4 +230,180 @@ router.get('/admin/users', async (req, res) => {
   }
 });
 
+// Update user profile (protected route)
+router.put('/profile', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const updateData = req.body;
+
+    // Remove password from update data if it's empty or not provided
+    if (!updateData.password || updateData.password.trim() === '') {
+      delete updateData.password;
+    }
+
+    // Convert comma-separated strings to arrays for crops, devices, and machinery
+    if (updateData.primaryCrops && typeof updateData.primaryCrops === 'string') {
+      updateData.primaryCrops = updateData.primaryCrops.split(',').map(crop => crop.trim()).filter(crop => crop);
+    }
+    if (updateData.secondaryCrops && typeof updateData.secondaryCrops === 'string') {
+      updateData.secondaryCrops = updateData.secondaryCrops.split(',').map(crop => crop.trim()).filter(crop => crop);
+    }
+    if (updateData.iotDevices && typeof updateData.iotDevices === 'string') {
+      updateData.iotDevices = updateData.iotDevices.split(',').map(device => device.trim()).filter(device => device);
+    }
+    if (updateData.machinery && typeof updateData.machinery === 'string') {
+      updateData.machinery = updateData.machinery.split(',').map(machine => machine.trim()).filter(machine => machine);
+    }
+
+    // Handle pesticides array
+    if (updateData.pesticides && typeof updateData.pesticides === 'string') {
+      updateData.pesticides = [{ name: updateData.pesticides, frequency: 'Monthly' }];
+    }
+
+    // Convert numeric fields
+    if (updateData.farmSize) {
+      updateData.farmSize = parseInt(updateData.farmSize);
+    }
+    if (updateData.monthlyExpenditure) {
+      updateData.monthlyExpenditure = parseInt(updateData.monthlyExpenditure);
+    }
+
+    // Find and update user
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Profile updated successfully',
+      user
+    });
+
+  } catch (error) {
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const errors = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors
+      });
+    }
+
+    // Handle duplicate key error
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email already exists'
+      });
+    }
+
+    console.error('Profile update error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error during profile update'
+    });
+  }
+});
+
+// Comprehensive API endpoint - All App Data
+router.get('/app-data', async (req, res) => {
+  try {
+    // Get all users
+    const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+    
+    // Calculate statistics
+    const totalUsers = users.length;
+    const recentUsers = users.filter(user => {
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      return new Date(user.createdAt) > oneWeekAgo;
+    }).length;
+
+    // Farm statistics
+    const farmSizes = users.map(user => user.farmSize).filter(size => size > 0);
+    const averageFarmSize = farmSizes.length > 0 ? 
+      (farmSizes.reduce((sum, size) => sum + size, 0) / farmSizes.length).toFixed(2) : 0;
+
+    // Crop statistics
+    const allPrimaryCrops = users.flatMap(user => user.primaryCrops || []);
+    const cropCounts = {};
+    allPrimaryCrops.forEach(crop => {
+      cropCounts[crop] = (cropCounts[crop] || 0) + 1;
+    });
+
+    // Sprayer type statistics
+    const sprayerTypes = users.map(user => user.sprayerType).filter(type => type);
+    const sprayerCounts = {};
+    sprayerTypes.forEach(type => {
+      sprayerCounts[type] = (sprayerCounts[type] || 0) + 1;
+    });
+
+    // Language statistics
+    const languages = users.map(user => user.language).filter(lang => lang);
+    const languageCounts = {};
+    languages.forEach(lang => {
+      languageCounts[lang] = (languageCounts[lang] || 0) + 1;
+    });
+
+    // Communication preferences
+    const communications = users.map(user => user.communication).filter(comm => comm);
+    const communicationCounts = {};
+    communications.forEach(comm => {
+      communicationCounts[comm] = (communicationCounts[comm] || 0) + 1;
+    });
+
+    // Monthly expenditure statistics
+    const expenditures = users.map(user => user.monthlyExpenditure).filter(exp => exp > 0);
+    const averageExpenditure = expenditures.length > 0 ? 
+      (expenditures.reduce((sum, exp) => sum + exp, 0) / expenditures.length).toFixed(2) : 0;
+
+    // Response data
+    const appData = {
+      success: true,
+      message: 'All app data fetched successfully',
+      timestamp: new Date().toISOString(),
+      statistics: {
+        totalUsers,
+        recentUsers,
+        averageFarmSize: parseFloat(averageFarmSize),
+        averageMonthlyExpenditure: parseFloat(averageExpenditure)
+      },
+      analytics: {
+        cropDistribution: cropCounts,
+        sprayerTypeDistribution: sprayerCounts,
+        languageDistribution: languageCounts,
+        communicationPreferenceDistribution: communicationCounts
+      },
+      users: users,
+      summary: {
+        totalRegistrations: totalUsers,
+        activeUsers: users.length,
+        mostPopularCrop: Object.keys(cropCounts).reduce((a, b) => cropCounts[a] > cropCounts[b] ? a : b, ''),
+        mostUsedSprayerType: Object.keys(sprayerCounts).reduce((a, b) => sprayerCounts[a] > sprayerCounts[b] ? a : b, ''),
+        mostCommonLanguage: Object.keys(languageCounts).reduce((a, b) => languageCounts[a] > languageCounts[b] ? a : b, '')
+      }
+    };
+
+    res.json(appData);
+
+  } catch (error) {
+    console.error('App data fetch error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error while fetching app data',
+      error: process.env.NODE_ENV === 'development' ? error.message : {}
+    });
+  }
+});
+
 module.exports = router;
