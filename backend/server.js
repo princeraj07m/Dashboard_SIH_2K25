@@ -7,6 +7,8 @@ const authRoutes = require('./routes/authRoutes');
 // Load environment variables
 dotenv.config();
 
+app.use(cors());
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
