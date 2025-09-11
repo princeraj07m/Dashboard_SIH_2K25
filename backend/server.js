@@ -11,7 +11,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-app.use(cors());
+// CORS configuration - Allow all origins for development
+app.use(cors({
+  origin: true, // Allow all origins for development
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+}));
 
 
 app.use(express.json());

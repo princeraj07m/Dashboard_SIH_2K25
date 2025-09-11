@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { delay, map, catchError, tap } from 'rxjs/operators';
+import { delay, map, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface WeatherData {
@@ -71,16 +71,16 @@ export interface WeatherAlert {
   providedIn: 'root'
 })
 export class WeatherService {
-  private weatherSubject = new BehaviorSubject<WeatherData | null>(null);
+  private readonly weatherSubject = new BehaviorSubject<WeatherData | null>(null);
   public weather$ = this.weatherSubject.asObservable();
 
-  private alertsSubject = new BehaviorSubject<WeatherAlert[]>([]);
+  private readonly alertsSubject = new BehaviorSubject<WeatherAlert[]>([]);
   public alerts$ = this.alertsSubject.asObservable();
 
   private currentLocation: FarmLocation | null = null;
 
   // Farm locations data
-  private farmLocations: FarmLocation[] = [
+  private readonly farmLocations: FarmLocation[] = [
     {
       id: 'farm-1',
       name: 'Iowa Farm - Field A',
@@ -123,7 +123,7 @@ export class WeatherService {
     }
   ];
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     // Set default location
     this.currentLocation = this.farmLocations[0];
     this.loadWeatherData();
@@ -157,7 +157,9 @@ export class WeatherService {
       error: (error) => {
         console.error('Error loading weather data:', error);
         // Fallback to default data if API fails
-        this.weatherSubject.next(this.getDefaultWeatherData());
+        const defaultWeather = this.getDefaultWeatherData();
+        this.weatherSubject.next(defaultWeather);
+        this.generateWeatherAlerts(defaultWeather);
       }
     });
   }
@@ -212,7 +214,13 @@ export class WeatherService {
 
   getCurrentWeather(): Observable<WeatherData> {
     if (!this.currentLocation) {
-      return throwError('No location selected');
+      return throwError(() => new Error('No location selected'));
+    }
+
+    // Check if API key is valid
+    if (!environment.weatherApiKey || environment.weatherApiKey === 'your_openweathermap_api_key_here') {
+      console.warn('Weather API key not configured, using default data');
+      return of(this.getDefaultWeatherData());
     }
 
     const params = new HttpParams()
@@ -227,6 +235,7 @@ export class WeatherService {
         map((response: any) => this.transformWeatherData(response)),
         catchError(error => {
           console.error('Weather API Error:', error);
+          console.log('Falling back to default weather data');
           return of(this.getDefaultWeatherData());
         })
       );
