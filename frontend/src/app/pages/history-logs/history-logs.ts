@@ -5,6 +5,7 @@ import { Subject, takeUntil, debounceTime } from 'rxjs';
 import { LogsService, SystemLog, LogFilter, DataSet, ComparisonResult } from '../../services/logs.service';
 import { SharedModule } from '../../shared/shared-module';
 
+
 @Component({
   selector: 'app-history-logs',
   standalone: true,
@@ -14,28 +15,28 @@ import { SharedModule } from '../../shared/shared-module';
 })
 export class HistoryLogsComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
-  
+
   // Data properties
   logs: SystemLog[] = [];
   filteredLogs: SystemLog[] = [];
   dataSets: DataSet[] = [];
   comparisonResult: ComparisonResult | null = null;
-  
+
   // Form properties
   searchForm!: FormGroup;
   filterForm!: FormGroup;
   comparisonForm!: FormGroup;
-  
+
   // UI state
   currentView: 'timeline' | 'tabular' | 'comparison' = 'timeline';
   isLoading = false;
   showExportModal = false;
   exportFormat: 'csv' | 'json' | 'pdf' = 'csv';
-  
+
   // Filter options
   eventTypes: string[] = [];
   selectedEventTypes: string[] = ['scans'];
-  
+
   // Sample data for demonstration
   sampleLogs: SystemLog[] = [
     {
@@ -123,14 +124,14 @@ export class HistoryLogsComponent implements OnInit, OnDestroy {
     this.eventTypes = this.logsService.getEventTypes();
     this.dataSets = this.logsService.getDataSets();
     this.logs = [...this.sampleLogs];
-    
+
     this.logsService.getAllLogs()
       .pipe(takeUntil(this.destroy$))
       .subscribe(logs => {
         this.logs = [...this.sampleLogs, ...logs];
         this.applyFilters();
       });
-    
+
     this.applyFilters();
   }
 
@@ -164,7 +165,7 @@ export class HistoryLogsComponent implements OnInit, OnDestroy {
     // Search filter
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(log => 
+      filtered = filtered.filter(log =>
         log.title.toLowerCase().includes(term) ||
         log.message.toLowerCase().includes(term) ||
         log.scanId?.toLowerCase().includes(term) ||
@@ -187,7 +188,7 @@ export class HistoryLogsComponent implements OnInit, OnDestroy {
     if (dateRange?.start && dateRange?.end) {
       const startDate = new Date(dateRange.start);
       const endDate = new Date(dateRange.end);
-      filtered = filtered.filter(log => 
+      filtered = filtered.filter(log =>
         log.timestamp >= startDate && log.timestamp <= endDate
       );
     }
@@ -198,7 +199,7 @@ export class HistoryLogsComponent implements OnInit, OnDestroy {
   performComparison(): void {
     const dataset1Id = this.comparisonForm.get('dataset1')?.value;
     const dataset2Id = this.comparisonForm.get('dataset2')?.value;
-    
+
     if (dataset1Id && dataset2Id && dataset1Id !== dataset2Id) {
       this.comparisonResult = this.logsService.compareDataSets(dataset1Id, dataset2Id);
     } else {
@@ -243,7 +244,7 @@ export class HistoryLogsComponent implements OnInit, OnDestroy {
 
   exportLogs(): void {
     const exportData = this.logsService.exportLogs(this.exportFormat);
-    
+
     if (this.exportFormat === 'csv') {
       this.downloadCSV(exportData, 'logs-export.csv');
     } else if (this.exportFormat === 'json') {
@@ -252,7 +253,7 @@ export class HistoryLogsComponent implements OnInit, OnDestroy {
       // PDF export would need a proper PDF library
       console.log('PDF export:', exportData);
     }
-    
+
     this.closeExportModal();
   }
 
@@ -316,12 +317,12 @@ export class HistoryLogsComponent implements OnInit, OnDestroy {
   getTimeAgo(date: Date): string {
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    
+
     if (diffInSeconds < 60) return 'Just now';
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
     if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
     if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)}d ago`;
-    
+
     return this.formatDate(date);
   }
 
