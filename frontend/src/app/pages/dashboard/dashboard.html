@@ -1,167 +1,338 @@
 <app-header></app-header>
 
-<div class="container">
-<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center" style="min-height: 50vh;">
-  <div class="spinner-border text-success" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
-
-<div *ngIf="!isLoading" class="dashboard-container">
-  <div class="dashboard-header">
-   
-
-    <!-- Welcome Section -->
-    <div class="welcome-section mb-4">
-      <h2 class="fw-bold text-dark mb-2">{{ welcomeMessage }}</h2>
-      <p class="text-muted fs-5 mb-0">{{ farmInfo }}</p>
+<div class="container main-container">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center page-header">
+    <div>
+      <div class="welcome-title">Welcome back, <span id="userName">Ethan</span>!</div>
+      <div class="subtle" id="farmDetails">Farm: <strong>Green Acres</strong> | Crop: <strong>Corn</strong> |
+        Location: <strong>Iowa</strong></div>
+    </div>
+    <div>
+      <button class="btn btn-outline-secondary btn-sm" id="refreshWeatherBtn" data-bs-toggle="tooltip"
+        data-bs-placement="bottom" title="Refresh weather manually">
+        <i class="fa fa-sync"></i> Refresh
+      </button>
     </div>
   </div>
 
-  <!-- Key Metrics Section -->
-  <div class="key-metrics-section mb-5">
-    <div class="row g-4">
-      <div *ngFor="let metric of keyMetrics" class="col-6 col-lg-3">
-        <div class="metric-card" [ngClass]="'metric-' + metric.color">
-          <div class="metric-icon">
-            <i [class]="metric.icon"></i>
-          </div>
-          <div class="metric-content">
-            <h3 class="metric-value">{{ metric.value | number }}{{ metric.unit }}</h3>
-            <p class="metric-title">{{ metric.title }}</p>
-            <div class="metric-trend" [ngClass]="getTrendColor(metric.trendDirection, metric.id)">
-              <i [class]="getTrendIcon(metric.trendDirection)"></i>
-              <span>{{ metric.trend > 0 ? '+' : '' }}{{ metric.trend }}%</span>
+  <!-- Stats Cards -->
+  <div class="row g-3 mb-3">
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="stat-card d-flex justify-content-between align-items-start">
+        <div>
+          <div class="d-flex align-items-center mb-2">
+            <div class="stat-icon" style="background:linear-gradient(135deg,#ecfccb,#bbf7d0); color:#065f46;">
+              <i class="fa-solid fa-seedling"></i>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Equipment Monitoring Section -->
-  <div class="equipment-section mb-5">
-    <h3 class="section-title mb-4">Equipment Monitoring</h3>
-    <div class="row g-4">
-      <div *ngFor="let equipment of equipment" class="col-12 col-md-6 col-lg-4">
-        <div class="equipment-card" (click)="onEquipmentClick(equipment)">
-          <div class="equipment-header">
-            <h5 class="equipment-name">{{ equipment.name }}</h5>
-            <div class="equipment-status">
-              <span class="status-dot" [ngClass]="'status-' + equipment.status"></span>
-              <span class="status-text">{{ equipment.status | titlecase }}</span>
-            </div>
-          </div>
-          <div class="equipment-details">
-            <div class="detail-item">
-              <span class="detail-label">Last Maintenance:</span>
-              <span class="detail-value">{{ formatDate(equipment.lastMaintenance) }}</span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Next Maintenance:</span>
-              <span class="detail-value">{{ formatDate(equipment.nextMaintenance) }}</span>
-            </div>
-            <div *ngIf="equipment.maintenanceOverdue" class="maintenance-alert">
-              <i class="bi bi-exclamation-triangle-fill text-danger me-1"></i>
-              <span class="text-danger">Maintenance overdue by {{ equipment.maintenanceOverdue }} days</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Weather Forecast Section -->
-  <div class="weather-section mb-5" *ngIf="weatherData">
-    <h3 class="section-title mb-4">Weather Forecast</h3>
-    <div class="row g-4">
-      <!-- Current Weather -->
-      <div class="col-12 col-lg-4">
-        <div class="current-weather-card">
-          <div class="weather-icon-large">
-            <i [class]="getWeatherIcon(weatherData.current.condition)"></i>
-          </div>
-          <div class="weather-details">
-            <h2 class="temperature">{{ weatherData.current.temperature }}°F</h2>
-            <p class="condition">{{ weatherData.current.condition }}</p>
-            <div class="weather-stats">
-              <div class="stat-item">
-                <i class="bi bi-droplet-fill text-primary me-1"></i>
-                <span>{{ weatherData.current.humidity }}%</span>
-              </div>
-              <div class="stat-item">
-                <i class="bi bi-wind text-info me-1"></i>
-                <span>{{ weatherData.current.windSpeed }} mph</span>
+            <div>
+              <div class="muted-small">Total Plants Monitored</div>
+              <div class="stat-value" id="totalPlants">12,500</div>
+              <div class="stat-change text-success"><i class="fa fa-arrow-up"></i> <span id="plantsChange">+10%</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
-      <!-- 7-Day Forecast -->
-      <div class="col-12 col-lg-8">
-        <div class="forecast-container">
-          <div *ngFor="let day of weatherData.forecast" class="forecast-day">
-            <div class="forecast-day-name">{{ day.day }}</div>
-            <div class="forecast-icon">
-              <i [class]="getWeatherIcon(day.condition)"></i>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="stat-card d-flex justify-content-between align-items-start">
+        <div>
+          <div class="d-flex align-items-center mb-2">
+            <div class="stat-icon" style="background:linear-gradient(135deg,#fee2e2,#fecaca); color:#7f1d1d;">
+              <i class="fa-solid fa-virus-covid"></i>
             </div>
-            <div class="forecast-temp">{{ day.temperature }}°</div>
+            <div>
+              <div class="muted-small">Infection Rate</div>
+              <div class="stat-value" id="infectionRate">2.5%</div>
+              <div class="stat-change text-danger"><i class="fa fa-arrow-down"></i> <span
+                  id="infectionChange">-0.5%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="stat-card d-flex justify-content-between align-items-start">
+        <div>
+          <div class="d-flex align-items-center mb-2">
+            <div class="stat-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe); color:#1e3a8a;">
+              <i class="fa-solid fa-flask"></i>
+            </div>
+            <div>
+              <div class="muted-small">Pesticide Saved</div>
+              <div class="stat-value" id="pesticideSaved">150 Liters</div>
+              <div class="stat-change text-success"><i class="fa fa-arrow-up"></i> <span
+                  id="pesticideChange">+20%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="stat-card d-flex justify-content-between align-items-start">
+        <div>
+          <div class="d-flex align-items-center mb-2">
+            <div class="stat-icon" style="background:linear-gradient(135deg,#fff7ed,#ffedd5); color:#92400e;">
+              <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+            <div>
+              <div class="muted-small">Estimated Cost Savings</div>
+              <div class="stat-value" id="costSavings">$3,200</div>
+              <div class="stat-change text-success"><i class="fa fa-arrow-up"></i> <span id="costChange">+15%</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Live Status Section -->
-  <div class="live-status-section mb-5">
-    <h3 class="section-title mb-4">Live Status</h3>
-    <div class="row g-4">
-      <div *ngFor="let field of fieldStatus" class="col-12 col-md-6">
-        <div class="field-status-card" (click)="onFieldClick(field)">
-          <div class="field-info">
-            <h5 class="field-name">{{ field.name }} - {{ field.crop }}</h5>
-            <div class="field-status">
-              <span class="status-dot" [ngClass]="'status-' + field.status"></span>
-              <span class="status-text" [ngClass]="'text-' + getStatusColor(field.status)">
-                Status: {{ field.status | titlecase }}
-              </span>
+  <!-- Equipment monitoring -->
+  <div class="row g-3 mb-3">
+    <div class="col-12">
+      <div class="equipment-card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="mb-0">Equipment Monitoring</h5>
+          <small class="muted-small">Overview of last maintenance & status</small>
+        </div>
+
+        <div class="row g-3">
+          <!-- Equipment 1 -->
+          <div class="col-12 col-md-4">
+            <div class="p-3 rounded-soft trans-style"
+              style="background:#fbfff7; border:1px solid rgba(16,185,129,0.08);">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                  <strong>Tractor JD 5075E</strong>
+                  <div class="muted-small">Last Maintenance <div class="d-inline fw-semibold">
+                      2023-10-15</div>
+                  </div>
+                </div>
+                <div>
+                  <span class="status-badge status-active" data-bs-toggle="tooltip" title="Active">
+                    <i class="fa fa-check-circle"></i> Active
+                  </span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <i class="fa-regular fa-calendar-check muted-small text-success"></i>
+                <span class="muted-small ms-1">Next Maintenance: <span class="fw-semibold">2024-04-15</span></span>
+              </div>
             </div>
-            <p class="last-updated">Last Updated: {{ formatTimeAgo(field.lastUpdated) }}</p>
           </div>
-          <div class="field-image">
-            <img [src]="field.imageUrl" [alt]="field.name" class="img-fluid rounded">
+
+          <!-- Equipment 2 -->
+          <div class="col-12 col-md-4">
+            <div class="p-3 rounded-soft trans-style"
+              style="background:#f8fafc; border:1px solid rgba(99,102,241,0.03);">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                  <strong>Combine Harvester S780</strong>
+                  <div class="muted-small">Last Maintenance <div class="d-inline fw-semibold">
+                      2023-11-01</div>
+                  </div>
+                </div>
+                <div>
+                  <span class="status-badge status-idle" data-bs-toggle="tooltip" title="Idle">
+                    <i class="fa fa-pause"></i> Idle
+                  </span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <i class="fa-regular fa-calendar muted-small text-warning"></i>
+                <span class="muted-small ms-1">Next Maintenance: <span class="fw-semibold">2024-09-01</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Equipment 3 -->
+          <div class="col-12 col-md-4">
+            <div class="p-3 rounded-soft trans-style"
+              style="background:#fff7f6; border:1px solid rgba(239,68,68,0.06);">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                  <strong>Sprayer R4045</strong>
+                  <div class="muted-small">Last Maintenance <div class="d-inline fw-semibold">
+                      2023-09-20</div>
+                  </div>
+                </div>
+                <div>
+                  <span class="status-badge status-due" data-bs-toggle="tooltip" title="Maintenance Due">
+                    <i class="fa fa-triangle-exclamation"></i> Maintenance Due
+                  </span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <i class="fa-regular fa-triangle-exclamation muted-small text-danger"></i>
+                <span class="muted-small ms-1">Maintenance overdue by <span class="fw-semibold" style="color:#ef4444">25
+                    days</span></span>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 
-  <!-- Recent Alerts Section -->
-  <div class="alerts-section mb-5">
-    <h3 class="section-title mb-4">Recent Alerts</h3>
-    <div class="row g-4">
-      <div *ngFor="let alert of alerts" class="col-12 col-md-6">
-        <div class="alert-card" [ngClass]="{'alert-unread': !alert.isRead}" (click)="onAlertClick(alert)">
-          <div class="alert-icon">
-            <i [class]="getAlertIcon(alert.type)"></i>
-          </div>
-          <div class="alert-content">
-            <h6 class="alert-title">{{ alert.title }}</h6>
-            <p class="alert-description">{{ alert.description }}</p>
-            <div class="alert-meta">
-              <span class="alert-field">{{ alert.field }}</span>
-              <span class="alert-severity" [ngClass]="getSeverityBadgeClass(alert.severity)">
-                {{ alert.severity | titlecase }}
-              </span>
-            </div>
-            <small class="alert-time">{{ formatTimeAgo(alert.timestamp) }}</small>
-          </div>
+  <!-- Weather  -->
+  <div class="row g-3 mb-3">
+    <!-- Weather -->
+    <div class="col-12">
+      <div class="weather-card">
+  <div class="d-flex justify-content-between align-items-start">
+    <h5 class="mb-0">Weather Forecast</h5>
+    <div class="muted-small">{{ weatherLocation }}</div>
+  </div>
+  <hr>
+  <div class="d-flex gap-3 align-items-center weather-main">
+    <div style="min-width:160px;">
+      <div class="d-flex align-items-center">
+        <div>
+          <div class="temp-big">{{ currentTemp }}</div>
+          <div class="muted-small">{{ currentDesc }}</div>
+        </div>
+      </div>
+      <div class="mt-2 muted-small">
+        <i class="fa fa-cloud-rain"></i> {{ currentRain }} chance of rain
+        &nbsp;&nbsp;
+        <i class="fa fa-wind"></i> {{ currentWind }}
+      </div>
+    </div>
+
+    <div class="flex-grow-1 position-relative">
+      <!-- Forecast container -->
+      <div id="forecastContainer" class="forecast-list" tabindex="0" aria-label="7 day forecast">
+        <div *ngFor="let f of forecastData" class="forecast-item trans-style">
+          <div class="day">{{ f.day }}</div>
+          <div style="font-size:1.25rem;"><i class="fa {{ f.icon }}"></i></div>
+          <div class="temp">{{ f.temp }}°</div>
+          <div class="muted-small">{{ f.rain }}%</div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+    </div>
+  </div>
+  <!-- Live status and alerts column -->
+  <div class="row g-3 mb-3">
+    <!-- Live Status -->
+    <div class="col-lg-8 ">
+      <div class="card p-3 h-100 live-status-row ">
+        <h5 class="mb-0">Live Status</h5>
+        <hr>
+
+        <div style="max-height:45vh; overflow-y:auto;">
+          <div>
+            <!-- Slide 1 -->
+            <div class="swiper-slide">
+              <div class="card p-3 mb-3">
+                <h6>Field A - Corn</h6>
+                <p class="text-success small">Healthy</p>
+                <small class="text-muted">Last Updated: 2 hours ago</small>
+                <img src="Nitro_Wallpaper_01_3840x2400.jpg" class="img-fluid rounded mt-2 Field-img" />
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="swiper-slide">
+              <div class="card p-3 mb-3">
+                <h6>Field B - Wheat</h6>
+                <p class="text-warning small">Needs Attention</p>
+                <small class="text-muted">Last Updated: 30 mins ago</small>
+                <img src="Nitro_Wallpaper_01_3840x2400.jpg" class="img-fluid rounded mt-2 Field-img" />
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="swiper-slide">
+              <div class="card p-3 mb-3">
+                <h6>Field C - Soybean</h6>
+                <p class="text-danger small">Diseased</p>
+                <small class="text-muted">Last Updated: 10 mins ago</small>
+                <img src="Nitro_Wallpaper_01_3840x2400.jpg" class="img-fluid rounded mt-2 Field-img" />
+              </div>
+            </div>
+
+            <!-- Add more slides (4,5,...) -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Alerts -->
+    <div class="col-lg-4 ">
+      <div class="card p-3 h-100 live-alerts-row ">
+        <h5 class="mb-0">Recent Alerts</h5>
+        <hr>
+        <div style="max-height:44vh; overflow-y:auto;">
+          <div class="alert d-flex align-items-start gap-2 p-2 border rounded mb-2 trans-style">
+            <i class="fa fa-triangle-exclamation text-warning mt-1"></i>
+            <div>
+              <strong>Potential Pest Infestation</strong>
+              <div class="small text-muted">Field B - Soybean | Severity: Medium</div>
+            </div>
+          </div>
+          <div class="alert d-flex align-items-start gap-2 p-2 border rounded mb-2 trans-style">
+            <i class="fa fa-droplet text-danger mt-1"></i>
+            <div>
+              <strong>Irrigation System Malfunction</strong>
+              <div class="small text-muted">Field C - Wheat | Severity: Low</div>
+            </div>
+          </div>
+          <div class="alert d-flex align-items-start gap-2 p-2 border rounded mb-2 trans-style">
+            <i class="fa fa-triangle-exclamation text-warning mt-1"></i>
+            <div>
+              <strong>Potential Pest Infestation</strong>
+              <div class="small text-muted">Field B - Soybean | Severity: Medium</div>
+            </div>
+          </div>
+          <div class="alert d-flex align-items-start gap-2 p-2 border rounded mb-2 trans-style">
+            <i class="fa fa-droplet text-danger mt-1"></i>
+            <div>
+              <strong>Irrigation System Malfunction</strong>
+              <div class="small text-muted">Field C - Wheat | Severity: Low</div>
+            </div>
+          </div>
+          <div class="alert d-flex align-items-start gap-2 p-2 border rounded mb-2 trans-style">
+            <i class="fa fa-triangle-exclamation text-warning mt-1"></i>
+            <div>
+              <strong>Potential Pest Infestation</strong>
+              <div class="small text-muted">Field B - Soybean | Severity: Medium</div>
+            </div>
+          </div>
+          <div class="alert d-flex align-items-start gap-2 p-2 border rounded mb-2 trans-style">
+            <i class="fa fa-droplet text-danger mt-1"></i>
+            <div>
+              <strong>Irrigation System Malfunction</strong>
+              <div class="small text-muted">Field C - Wheat | Severity: Low</div>
+            </div>
+          </div>
+          <div class="alert d-flex align-items-start gap-2 p-2 border rounded mb-2 trans-style">
+            <i class="fa fa-triangle-exclamation text-warning mt-1"></i>
+            <div>
+              <strong>Potential Pest Infestation</strong>
+              <div class="small text-muted">Field B - Soybean | Severity: Medium</div>
+            </div>
+          </div>
+          <div class="alert d-flex align-items-start gap-2 p-2 border rounded mb-2 trans-style">
+            <i class="fa fa-droplet text-danger mt-1"></i>
+            <div>
+              <strong>Irrigation System Malfunction</strong>
+              <div class="small text-muted">Field C - Wheat | Severity: Low</div>
+            </div>
+          </div>
+          <!-- Add more alerts -->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <app-footer></app-footer>
