@@ -17,6 +17,7 @@ import { UserProfileComponent } from '../pages/user-profile/user-profile';
 import { NotificationsComponent } from '../pages/notifications/notifications';
 import { CropCycleComponent } from '../pages/crop-cycle/crop-cycle';
 import { Weather } from '../pages/weather/weather';
+import { HistoryLogsComponent } from '../pages/history-logs/history-logs';
 const routes: Routes = [
   {
     path: '',
@@ -85,6 +86,10 @@ const routes: Routes = [
   {
     path: 'weather',
     component: Weather
+  },
+  {
+    path: 'history-logs',
+    component: HistoryLogsComponent
   }
 ];
 
