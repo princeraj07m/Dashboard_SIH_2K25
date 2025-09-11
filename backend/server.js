@@ -31,7 +31,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
+
+// Simple healthcheck for uptime checks and debugging
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, env: process.env.NODE_ENV || 'development', time: new Date().toISOString() });
+});
 
 // Routes
 app.use('/api', authRoutes);
@@ -51,6 +56,13 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // MongoDB connection
+// Validate required environment variables
+if (!process.env.JWT_SECRET) {
+  console.warn('WARNING: JWT_SECRET is not set. JWT operations may fail. Set JWT_SECRET in .env');
+}
+if (!process.env.MONGODB_URI) {
+  console.error('ERROR: MONGODB_URI is not set. Set MONGODB_URI in .env');
+}
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
