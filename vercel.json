@@ -1,0 +1,19 @@
+{
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "frontend/dist/Dashboard/browser" }
+    }
+  ],
+  "routes": [
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/favicon.ico", "dest": "/favicon.ico" },
+    { "src": "/(.*)\\.(css|js|png|jpg|jpeg|gif|svg|woff2?)", "dest": "/$1.$2" },
+    { "src": "/.*", "dest": "/index.html" }
+  ],
+  "installCommand": "cd frontend && npm ci",
+  "buildCommand": "cd frontend && npm run build"
+}
+
+
