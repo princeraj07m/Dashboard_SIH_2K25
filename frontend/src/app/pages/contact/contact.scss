@@ -1,6 +1,8 @@
 /* Container */
 .container {
   max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 /* Card */
@@ -9,12 +11,12 @@
   background: rgba(255, 255, 255, 0.95);
   padding: 35px;
   border: 1px solid #eaeaea;
-  box-shadow: 0px 8px 22px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0px 12px 28px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 /* Heading */
@@ -25,7 +27,6 @@ h2 {
   text-align: center;
   margin-bottom: 25px;
   letter-spacing: 0.5px;
-  position: relative;
 }
 h2::after {
   content: "";
@@ -43,6 +44,7 @@ h2::after {
   color: #333;
   font-style: italic;
   margin-bottom: 6px;
+  display: block;
 }
 
 /* Inputs */
@@ -53,12 +55,14 @@ h2::after {
   border: 1px solid #dcdcdc;
   background: #fff;
   transition: all 0.3s ease;
+  width: 100%;
 }
 .form-control:focus,
 .form-select:focus {
   border-color: #28a745;
-  box-shadow: 0px 0px 10px rgba(40, 167, 69, 0.4);
+  box-shadow: 0 0 10px rgba(40, 167, 69, 0.4);
   transform: scale(1.02);
+  outline: none;
 }
 
 /* Button */
@@ -72,15 +76,16 @@ h2::after {
   transition: all 0.4s ease;
   background-size: 200% auto;
   color: #fff;
-  box-shadow: 0px 6px 16px rgba(29, 151, 108, 0.3);
+  box-shadow: 0 6px 16px rgba(29, 151, 108, 0.3);
   border-radius: 12px;
   display: block;
   width: 100%;
+  cursor: pointer;
 }
 .btn-success:hover {
   background-position: right center;
   transform: translateY(-2px) scale(1.05);
-  box-shadow: 0px 8px 20px rgba(29, 151, 108, 0.4);
+  box-shadow: 0 8px 20px rgba(29, 151, 108, 0.4);
 }
 
 /* Alerts */
@@ -90,7 +95,7 @@ h2::after {
   font-weight: 500;
   padding: 12px 18px;
   margin-top: 15px;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 .alert-success {
   background: #e8f9ee;
@@ -111,4 +116,5 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
 }
