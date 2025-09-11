@@ -18,6 +18,7 @@ import { NotificationsComponent } from '../pages/notifications/notifications';
 import { CropCycleComponent } from '../pages/crop-cycle/crop-cycle';
 import { Weather } from '../pages/weather/weather';
 import { HistoryLogsComponent } from '../pages/history-logs/history-logs';
+import { FinancialOverviewComponent } from '../pages/financial-overview/financial-overview';
 const routes: Routes = [
   {
     path: '',
@@ -90,6 +91,10 @@ const routes: Routes = [
   {
     path: 'history-logs',
     component: HistoryLogsComponent
+  },
+  {
+    path: 'financial-overview',
+    component: FinancialOverviewComponent
   }
 ];
 
