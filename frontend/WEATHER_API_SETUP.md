@@ -17,8 +17,8 @@ To use real weather data, you need to set up an OpenWeatherMap API key:
 ```typescript
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000/api',
-  backendUrl: 'http://localhost:5000',
+  apiUrl: 'http://localhost:5001/api',
+  backendUrl: 'http://localhost:5001',
   weatherApiKey: 'YOUR_ACTUAL_API_KEY_HERE', // Replace this
   weatherApiUrl: 'https://api.openweathermap.org/data/2.5'
 };

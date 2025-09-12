@@ -72,8 +72,8 @@ Dashboard_SIH_2K25/
 ```typescript
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:5000/api',
-  backendUrl: 'http://localhost:5000'
+  apiUrl: 'http://localhost:5001/api',
+  backendUrl: 'http://localhost:5001'
 };
 ```
 
@@ -108,7 +108,7 @@ export const environment = {
    ```env
    MONGODB_URI=mongodb://localhost:27017/farmer_registration
    JWT_SECRET=your_jwt_secret_key_here
-   PORT=5000
+   PORT=5001
    FRONTEND_URL=http://localhost:4200
    ```
 
@@ -200,12 +200,12 @@ Ensure MongoDB is running and accessible at the URI specified in your `.env` fil
 ### Common Issues
 
 1. **CORS Errors**
-   - Ensure backend is running on port 5000
+   - Ensure backend is running on port 5001
    - Check CORS configuration in server.js
 
 2. **Connection Refused**
    - Verify backend server is running
-   - Check if port 5000 is available
+   - Check if port 5001 is available
 
 3. **Authentication Errors**
    - Verify JWT_SECRET is set in .env

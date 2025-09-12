@@ -28,7 +28,7 @@ const postData = JSON.stringify(testData);
 
 const options = {
   hostname: 'localhost',
-  port: 5000,
+  port: 5001,
   path: '/api/register',
   method: 'POST',
   headers: {
