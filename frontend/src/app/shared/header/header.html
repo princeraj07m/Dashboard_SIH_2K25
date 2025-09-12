@@ -35,17 +35,24 @@
                 </li>
             </ng-container>
             <ng-container *ngIf="isLoggedIn">
-                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/field-demo">Field Layout</a></li>
-                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/crop-cycles">Crop Cycles</a></li>
-                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/weather">Weather</a></li>
-                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/dashboard">Dashboard</a></li>
-                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/history-logs">History & Logs</a></li>
-                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/financial-overview">Financials</a></li>
+        <li class="nav-item dropdown px-2">
+  <a class="nav-link dropdown-toggle text-success fw-semibold" href="#" id="menuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Menu
+  </a>
+  <ul class="dropdown-menu custom-dropdown shadow-lg rounded-3 border-0 p-2" aria-labelledby="menuDropdown">
+    <li><a class="dropdown-item fw-semibold text-dark rounded-2 hover-item" routerLink="/pages/field-demo">🌱 Field Layout</a></li>
+    <li><a class="dropdown-item fw-semibold text-dark rounded-2 hover-item" routerLink="/pages/crop-cycles">🌾 Crop Cycles</a></li>
+    <li><a class="dropdown-item fw-semibold text-dark rounded-2 hover-item" routerLink="/pages/weather">☀️ Weather</a></li>
+    <li><a class="dropdown-item fw-semibold text-dark rounded-2 hover-item" routerLink="/pages/dashboard">📊 Dashboard</a></li>
+    <li><a class="dropdown-item fw-semibold text-dark rounded-2 hover-item" routerLink="/pages/history-logs">📜 History & Logs</a></li>
+    <li><a class="dropdown-item fw-semibold text-dark rounded-2 hover-item" routerLink="/pages/financial-overview">💰 Financials</a></li>
+    <li><a class="dropdown-item fw-semibold text-dark rounded-2 hover-item" routerLink="/main/control-panel">⚙️ Control Panel</a></li>
+    <li><a class="dropdown-item fw-semibold text-dark rounded-2 hover-item" routerLink="/pages/notifications">🔔 Notifications</a></li>
+    <li><a class="dropdown-item fw-semibold text-dark rounded-2 hover-item" (click)="navigateToProfile()">👤 Edit Profile</a></li>
+  </ul>
+</li>
 
-                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/main/control-panel">Control Panel</a></li>
-                 <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" routerLink="/pages/notifications">Notifications</a></li>
 
-                <li class="nav-item px-2"><a class="nav-link text-success fw-semibold" (click)="navigateToProfile()">Edit Profile</a></li>
 
                 <li class="nav-item px-2">
                     <button class="btn btn-outline-success px-3 ms-2 rounded-pill shadow-sm" routerLink="/pages/user-profile">

@@ -7,10 +7,12 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared-module';
+import { GoogleMap } from './components/google-map/google-map';
 
 @NgModule({
   declarations: [
     App,
+    GoogleMap,
   ],
   imports: [
     BrowserModule,
