@@ -72,8 +72,12 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// MongoDB connection
-// Validate required environment variables
+// Start HTTP server immediately so port is reachable, connect DB in background
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running at http://0.0.0.0:${PORT}`);
+});
+
+// MongoDB connection (non-fatal on failure)
 if (!process.env.JWT_SECRET) {
   console.warn('WARNING: JWT_SECRET is not set. JWT operations may fail. Set JWT_SECRET in .env');
 }
@@ -86,13 +90,9 @@ mongoose.connect(process.env.MONGODB_URI, {
 })
 .then(() => {
   console.log('Connected to MongoDB');
-  app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running at http://0.0.0.0:${PORT}`);
-});
 })
 .catch((error) => {
-  console.error('MongoDB connection error:', error);
-  process.exit(1);
+  console.error('MongoDB connection error (server still running):', error.message || error);
 });
 
 // Global error handler
