@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './sprayer.scss'
 })
 export class Sprayer {
+sprayer1Level = 60;
+sprayer2Level = 30;
+sprayer3Level = 90;
+
 
 }

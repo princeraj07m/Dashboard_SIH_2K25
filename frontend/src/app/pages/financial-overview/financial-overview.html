@@ -10,16 +10,16 @@
       <div class="header-actions">
         <div class="d-flex align-items-center gap-3">
           <div class="period-selector">
-            <select 
-              class="form-select" 
-              [(ngModel)]="selectedPeriod" 
+            <select
+              class="form-select"
+              [(ngModel)]="selectedPeriod"
               (change)="onPeriodChange()">
               <option *ngFor="let period of periodOptions" [value]="period">
                 {{ period }}
               </option>
             </select>
           </div>
-          <button 
+          <button
             class="btn btn-outline-primary"
             (click)="openExportModal()">
             <i class="bi bi-download me-2"></i>
@@ -71,17 +71,47 @@
 
   <!-- Revenue and Expenses Trend Chart -->
   <div class="chart-section mb-5">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title mb-0">Revenue and Expenses Trend</h5>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title mb-0">Revenue and Expenses Trend</h5>
+      <p class="card-subtitle mb-0">Track monthly performance and profit margins</p>
+    </div>
+    <div class="card-body">
+      <div class="chart-container">
+        <canvas #trendChart></canvas>
       </div>
-      <div class="card-body">
-        <div class="chart-container">
-          <canvas #trendChart></canvas>
+
+      <!-- Chart Details -->
+      <div class="chart-details">
+        <div class="detail-item">
+          <span class="label">Total Revenue</span>
+          <span class="value">$125,670</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Total Expenses</span>
+          <span class="value">$72,430</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Profit</span>
+          <span class="value">$53,240</span>
+        </div>
+      </div>
+
+      <!-- Chart Legend -->
+      <div class="chart-legend mt-3">
+        <div class="legend-item">
+          <span class="legend-color" style="background-color:#4caf50;"></span>
+          <span class="legend-text">Revenue</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color" style="background-color:#e74c3c;"></span>
+          <span class="legend-text">Expenses</span>
         </div>
       </div>
     </div>
   </div>
+</div>
+
 
   <!-- Bottom Section -->
   <div class="row g-4">
@@ -93,16 +123,16 @@
         </div>
         <div class="card-body">
           <div class="expense-list">
-            <div 
-              *ngFor="let expense of financialData?.expenseBreakdown" 
+            <div
+              *ngFor="let expense of financialData?.expenseBreakdown"
               class="expense-item">
               <div class="expense-info">
                 <div class="expense-name">{{ expense.name }}</div>
                 <div class="expense-amount">{{ formatCurrency(expense.amount) }}</div>
               </div>
               <div class="expense-bar">
-                <div 
-                  class="expense-progress" 
+                <div
+                  class="expense-progress"
                   [style.width]="getExpenseBarWidth(expense.amount)"
                   [style.background-color]="expense.color">
                 </div>
@@ -126,11 +156,11 @@
               <canvas #donutChart></canvas>
             </div>
             <div class="profitability-legend">
-              <div 
-                *ngFor="let crop of financialData?.cropProfitability" 
+              <div
+                *ngFor="let crop of financialData?.cropProfitability"
                 class="legend-item">
-                <div 
-                  class="legend-color" 
+                <div
+                  class="legend-color"
                   [style.background-color]="crop.color">
                 </div>
                 <div class="legend-text">

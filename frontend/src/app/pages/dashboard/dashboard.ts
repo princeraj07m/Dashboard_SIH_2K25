@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { DashboardService, KeyMetric, Equipment, FieldStatus, Alert } from '../../services/dashboard.service';
+import { WeatherService, WeatherData, WeatherAlert } from '../../services/weather.service';
+import { ApiService } from '../../services/api.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,99 +12,307 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
   styleUrls: ['./dashboard.scss']
 })
-export class Dashboard implements OnInit {
+export class Dashboard implements OnInit, OnDestroy {
+  private readonly destroy$ = new Subject<void>();
 
-  currentTemp: string = '--°F';
-  currentDesc: string = '--';
-  currentRain: string = '--%';
-  currentWind: string = '-- mph';
-  weatherLocation: string = '';
-  forecastData: any[] = [];
+  // Dashboard data
+  keyMetrics: KeyMetric[] = [];
+  equipment: Equipment[] = [];
+  fieldStatus: FieldStatus[] = [];
+  alerts: Alert[] = [];
+  weatherData: WeatherData | null = null;
+  weatherAlerts: WeatherAlert[] = [];
+
+  // Backend summary/public stats
+  totalUsers?: number;
+  avgFarmSize?: number;
+  newThisWeek?: number;
+  avgMonthlyExpenditure?: number;
+
+  // UI state
+  isLoading = true;
+  selectedFarm = 'Green Acres';
+  farmOptions = ['Green Acres', 'Sunrise Farm', 'Valley Fields'];
+  currentUser = 'Guest';
+  currentLocation = 'Iowa';
+
+  // Dashboard sections
+  dashboardTitle = 'AgriTrack';
+  welcomeMessage = `Welcome back, ${this.currentUser}!`;
+  farmInfo = `Farm: ${this.selectedFarm} | Crop: Corn | Location: ${this.currentLocation}`;
+
+  constructor(
+    private readonly dashboardService: DashboardService,
+    private readonly weatherService: WeatherService,
+    private readonly apiService: ApiService,
+    private readonly authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.requestWeatherUpdate();
+    // Update welcome name dynamically from auth state
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
+        this.currentUser = user?.fullName || 'Guest';
+        this.welcomeMessage = `Welcome back, ${this.currentUser}!`;
+      });
+
+    this.loadDashboardData();
+    this.loadBackendSummary();
+    this.loadWeatherData();
   }
 
-  private getDayName(dateStr: string): string {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString(undefined, { weekday: 'short' });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  private pickWeatherIcon(code: number | null): string {
-    if (code === 0) return 'fa-sun';
-    if ([1, 2, 3].includes(code!)) return 'fa-cloud-sun';
-    if ([45, 48].includes(code!)) return 'fa-smog';
-    if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code!)) return 'fa-cloud-rain';
-    if ([71, 73, 75, 77, 85, 86].includes(code!)) return 'fa-snowflake';
-    if ([95, 96, 99].includes(code!)) return 'fa-bolt';
-    return 'fa-cloud';
+  private loadBackendSummary(): void {
+    // Load summary numbers
+    this.apiService.getSummary()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (summary) => {
+          this.totalUsers = summary.totalUsers;
+          this.newThisWeek = summary.newThisWeek;
+          this.avgFarmSize = summary.avgFarmSize;
+          this.mergeSummaryIntoMetrics();
+        },
+        error: () => {}
+      });
+
+    // Load public stats
+    this.apiService.getPublicStats()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (stats) => {
+          this.avgMonthlyExpenditure = stats.avgMonthlyExpenditure;
+          // Optionally merge into metrics as an extra card if present
+          this.mergePublicStatsIntoMetrics(stats);
+        },
+        error: () => {}
+      });
   }
 
-  private weatherCodeToText(code: number | null): string {
-    switch (code) {
-      case 0: return 'Clear';
-      case 1: return 'Mainly clear';
-      case 2: return 'Partly cloudy';
-      case 3: return 'Overcast';
-      case 45: case 48: return 'Fog';
-      case 51: case 53: case 55: return 'Drizzle';
-      case 61: case 63: case 65: return 'Rain';
-      case 71: case 73: case 75: return 'Snow';
-      case 80: case 81: case 82: return 'Rain showers';
-      case 95: case 96: case 99: return 'Thunderstorm';
-      default: return 'Weather';
+  private mergeSummaryIntoMetrics(): void {
+    if (!this.keyMetrics || this.keyMetrics.length === 0) return;
+
+    // Update or append metrics for total users and new users this week
+    const upsert = (id: string, partial: Partial<KeyMetric>) => {
+      const idx = this.keyMetrics.findIndex(m => m.id === id);
+      if (idx >= 0) {
+        this.keyMetrics[idx] = { ...this.keyMetrics[idx], ...partial } as KeyMetric;
+      } else {
+        this.keyMetrics.push({
+          id,
+          title: partial.title || '',
+          value: partial.value as number,
+          unit: partial.unit || '',
+          trend: partial.trend ?? 0,
+          trendDirection: (partial.trendDirection as any) || 'up',
+          icon: partial.icon || 'bi-info-circle',
+          color: partial.color || 'primary',
+          description: partial.description || ''
+        } as KeyMetric);
+      }
+    };
+
+    if (typeof this.totalUsers === 'number') {
+      upsert('total-users', {
+        title: 'Total Users',
+        value: this.totalUsers,
+        unit: '',
+        icon: 'bi-people-fill',
+        color: 'primary',
+        description: 'Users registered in the system'
+      });
+    }
+
+    if (typeof this.newThisWeek === 'number') {
+      upsert('new-users-week', {
+        title: 'New Users (7d)',
+        value: this.newThisWeek,
+        unit: '',
+        icon: 'bi-person-plus-fill',
+        color: 'success',
+        description: 'New registrations this week'
+      });
+    }
+
+    if (typeof this.avgFarmSize === 'number') {
+      upsert('avg-farm-size', {
+        title: 'Avg. Farm Size',
+        value: this.avgFarmSize,
+        unit: 'acres',
+        icon: 'bi-bar-chart',
+        color: 'secondary',
+        description: 'Average farm size across users'
+      });
     }
   }
 
-  private async fetchWeather(lat: number, lon: number) {
-    try {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode,windspeed_10m_max&timezone=auto&temperature_unit=fahrenheit&windspeed_unit=mph`;
-      const resp = await fetch(url);
-      if (!resp.ok) throw new Error('Weather fetch failed: ' + resp.status);
-      const data = await resp.json();
-
-      const cw = data.current_weather || {};
-      this.currentTemp = (cw.temperature !== undefined ? Math.round(cw.temperature) : '--') + '°F';
-      this.currentDesc = this.weatherCodeToText(cw.weathercode ?? (data.daily?.weathercode?.[0] ?? null));
-      this.currentRain = (data.daily?.precipitation_probability_max?.[0] ?? 0) + '%';
-      this.currentWind = Math.round(cw.windspeed ?? 0) + ' mph';
-
-      const daily = data.daily || {};
-      const times: string[] = daily.time || [];
-      const tmax: number[] = daily.temperature_2m_max || [];
-      const rainProb: number[] = daily.precipitation_probability_max || [];
-      const codes: number[] = daily.weathercode || [];
-
-      this.forecastData = times.map((t, i) => ({
-        day: this.getDayName(t),
-        temp: Math.round(tmax[i] ?? 0),
-        rain: rainProb[i] ?? 0,
-        icon: this.pickWeatherIcon(codes[i] ?? null)
-      }));
-
-    } catch (err) {
-      console.error(err);
-      this.weatherLocation = 'Unable to load weather';
-      this.currentDesc = 'Error loading weather data';
-      this.forecastData = [];
+  private mergePublicStatsIntoMetrics(stats: { totalUsers: number; avgFarmSize: number; avgMonthlyExpenditure: number }): void {
+    const idx = this.keyMetrics.findIndex(m => m.id === 'avg-monthly-expenditure');
+    const card: KeyMetric = {
+      id: 'avg-monthly-expenditure',
+      title: 'Avg. Monthly Expenditure',
+      value: stats.avgMonthlyExpenditure,
+      unit: '$',
+      trend: 0,
+      trendDirection: 'up',
+      icon: 'bi-cash-coin',
+      color: 'warning',
+      description: 'Average spend reported by users'
+    };
+    if (idx >= 0) {
+      this.keyMetrics[idx] = { ...this.keyMetrics[idx], ...card };
+    } else {
+      this.keyMetrics.push(card);
     }
   }
 
-  private requestWeatherUpdate() {
-    if (!navigator.geolocation) {
-      const fallback = { lat: 41.8780, lon: -93.0977 };
-      this.weatherLocation = 'Geolocation not available — showing fallback';
-      this.fetchWeather(fallback.lat, fallback.lon);
-      return;
+  private loadDashboardData(): void {
+    // Load key metrics
+    this.dashboardService.getKeyMetrics()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(metrics => {
+        this.keyMetrics = metrics;
+        this.mergeSummaryIntoMetrics();
+        this.isLoading = false;
+      });
+
+    // Load equipment
+    this.dashboardService.getEquipment()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(equipment => {
+        this.equipment = equipment;
+      });
+
+    // Load field status
+    this.dashboardService.getFieldStatus()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(fields => {
+        this.fieldStatus = fields;
+      });
+
+    // Load alerts
+    this.dashboardService.getAlerts()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(alerts => {
+        this.alerts = alerts;
+      });
+  }
+
+  private loadWeatherData(): void {
+    // Load current weather
+    this.weatherService.getCurrentWeather()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(weather => {
+        this.weatherData = weather;
+      });
+
+    // Load weather alerts
+    this.weatherService.getWeatherAlerts()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(alerts => {
+        this.weatherAlerts = alerts;
+      });
+  }
+
+  // Utility methods
+  getStatusColor(status: string): string {
+    return this.dashboardService.getStatusColor(status);
+  }
+
+  getStatusIcon(status: string): string {
+    return this.dashboardService.getStatusIcon(status);
+  }
+
+  getTrendIcon(direction: 'up' | 'down'): string {
+    return this.dashboardService.getTrendIcon(direction);
+  }
+
+  getTrendColor(direction: 'up' | 'down', metricId: string): string {
+    return this.dashboardService.getTrendColor(direction, metricId);
+  }
+
+  getWeatherIcon(condition: string): string {
+    return this.weatherService.getWeatherIcon(condition);
+  }
+
+  getAlertIcon(type: string): string {
+    const iconMap: { [key: string]: string } = {
+      'pest': 'bi-bug',
+      'disease': 'bi-virus',
+      'equipment': 'bi-tools',
+      'weather': 'bi-cloud-lightning',
+      'irrigation': 'bi-house-gear'
+    };
+    return iconMap[type] || 'bi-exclamation-triangle';
+  }
+
+  getSeverityColor(severity: string): string {
+    const colorMap: { [key: string]: string } = {
+      'low': 'text-danger',
+      'medium': 'text-warning',
+      'high': 'text-danger',
+      'critical': 'text-danger'
+    };
+    return colorMap[severity] || 'text-secondary';
+  }
+
+  getSeverityBadgeClass(severity: string): string {
+    const badgeMap: { [key: string]: string } = {
+      'low': 'badge bg-danger',
+      'medium': 'badge bg-warning',
+      'high': 'badge bg-danger',
+      'critical': 'badge bg-danger'
+    };
+    return badgeMap[severity] || 'badge bg-secondary';
+  }
+
+  formatTimeAgo(date: Date): string {
+    return this.dashboardService.formatTimeAgo(date);
+  }
+
+  formatDate(date: Date): string {
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+  }
+
+  onFarmChange(farm: string): void {
+    this.selectedFarm = farm;
+    this.farmInfo = `Farm: ${farm} | Crop: Corn | Location: ${this.currentLocation}`;
+    // In a real app, you would reload data based on selected farm
+  }
+
+  onAlertClick(alert: Alert): void {
+    if (!alert.isRead) {
+      this.dashboardService.markAlertAsRead(alert.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          alert.isRead = true;
+        });
     }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => this.fetchWeather(pos.coords.latitude, pos.coords.longitude),
-      () => {
-        const fallback = { lat: 41.8780, lon: -93.0977 };
-        this.weatherLocation = 'Location denied — using fallback (Iowa)';
-        this.fetchWeather(fallback.lat, fallback.lon);
-      },
-      { enableHighAccuracy: false, timeout: 8000 }
-    );
+  }
+
+  onEquipmentClick(equipment: Equipment): void {
+    // Navigate to equipment details or show modal
+    console.log('Equipment clicked:', equipment);
+  }
+
+  onFieldClick(field: FieldStatus): void {
+    // Navigate to field details or show modal
+    console.log('Field clicked:', field);
+  }
+
+  refreshData(): void {
+    this.isLoading = true;
+    this.loadDashboardData();
+    this.loadBackendSummary();
+    this.loadWeatherData();
   }
 }

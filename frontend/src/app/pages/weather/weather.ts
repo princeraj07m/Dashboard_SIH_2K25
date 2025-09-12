@@ -22,7 +22,7 @@ export class Weather implements OnInit, OnDestroy {
   selectedLocation: FarmLocation | null = null;
   farmLocations: FarmLocation[] = [];
   errorMessage: string | null = null;
-  
+
   // Weather details
   currentWeather: any = null;
   forecast: any[] = [];
@@ -90,7 +90,7 @@ export class Weather implements OnInit, OnDestroy {
     this.hourlyForecast = Array.from({ length: 24 }, (_, i) => {
       const hour = new Date();
       hour.setHours(hour.getHours() + i);
-      
+
       // Simulate hourly variations
       const tempVariation = (Math.sin(i * Math.PI / 12) * 10) + (Math.random() - 0.5) * 4;
       const humidityVariation = (Math.random() - 0.5) * 10;
@@ -110,7 +110,7 @@ export class Weather implements OnInit, OnDestroy {
   private getConditionForHour(hour: number): string {
     const conditions = ['Sunny', 'Cloudy', 'Partly Cloudy', 'Rainy', 'Clear'];
     const hourOfDay = hour % 24;
-    
+
     if (hourOfDay >= 6 && hourOfDay < 18) {
       return conditions[Math.floor(Math.random() * 3)]; // Day conditions
     } else {
@@ -205,14 +205,14 @@ export class Weather implements OnInit, OnDestroy {
 
   getActiveAlerts(): WeatherAlert[] {
     const now = new Date();
-    return this.weatherAlerts.filter(alert => 
+    return this.weatherAlerts.filter(alert =>
       alert.startTime <= now && alert.endTime >= now
     );
   }
 
   getUpcomingAlerts(): WeatherAlert[] {
     const now = new Date();
-    return this.weatherAlerts.filter(alert => 
+    return this.weatherAlerts.filter(alert =>
       alert.startTime > now && alert.startTime <= new Date(now.getTime() + 24 * 60 * 60 * 1000)
     );
   }
