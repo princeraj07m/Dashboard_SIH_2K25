@@ -406,4 +406,76 @@ router.get('/app-data', async (req, res) => {
   }
 });
 
+// Public lightweight stats for dashboards (no auth)
+router.get('/public/stats', async (req, res) => {
+  try {
+    const users = await User.find({}).select('createdAt farmSize language sprayerType primaryCrops monthlyExpenditure');
+    const totalUsers = users.length;
+    const farmSizes = users.map(u => u.farmSize || 0).filter(n => n > 0);
+    const avgFarmSize = farmSizes.length ? parseFloat((farmSizes.reduce((a,b)=>a+b,0)/farmSizes.length).toFixed(2)) : 0;
+    const expenditures = users.map(u => u.monthlyExpenditure || 0).filter(n => n > 0);
+    const avgMonthlyExpenditure = expenditures.length ? parseFloat((expenditures.reduce((a,b)=>a+b,0)/expenditures.length).toFixed(2)) : 0;
+    res.json({ success: true, totalUsers, avgFarmSize, avgMonthlyExpenditure });
+  } catch (error) {
+    console.error('Public stats error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch stats' });
+  }
+});
+
+// Public recent users list (limited fields, no auth)
+router.get('/public/recent-users', async (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit) || 10, 50);
+    const users = await User.find({})
+      .select('fullName farmName language primaryCrops createdAt')
+      .sort({ createdAt: -1 })
+      .limit(limit);
+    res.json({ success: true, count: users.length, users });
+  } catch (error) {
+    console.error('Public recent users error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch recent users' });
+  }
+});
+
+// Summary for header widgets (no auth)
+router.get('/summary', async (req, res) => {
+  try {
+    const users = await User.find({}).select('createdAt farmSize language communication sprayerType');
+    const totalUsers = users.length;
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    const newThisWeek = users.filter(u => new Date(u.createdAt) > oneWeekAgo).length;
+    const avgFarmSize = (() => {
+      const sizes = users.map(u => u.farmSize || 0).filter(n => n > 0);
+      return sizes.length ? parseFloat((sizes.reduce((a,b)=>a+b,0)/sizes.length).toFixed(2)) : 0;
+    })();
+    res.json({ success: true, totalUsers, newThisWeek, avgFarmSize });
+  } catch (error) {
+    console.error('Summary error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch summary' });
+  }
+});
+
+// Get single user (protected)
+router.get('/users/:id', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error('Get user error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch user' });
+  }
+});
+
+// Public config to help frontend discover environment
+router.get('/public/config', (req, res) => {
+  res.json({
+    success: true,
+    environment: process.env.NODE_ENV || 'development',
+    version: process.env.APP_VERSION || '1.0.0',
+    time: new Date().toISOString()
+  });
+});
+
 module.exports = router;
