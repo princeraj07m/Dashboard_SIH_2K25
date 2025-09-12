@@ -3,6 +3,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DashboardService, KeyMetric, Equipment, FieldStatus, Alert } from '../../services/dashboard.service';
 import { WeatherService, WeatherData, WeatherAlert } from '../../services/weather.service';
+import { ApiService } from '../../services/api.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +13,7 @@ import { WeatherService, WeatherData, WeatherAlert } from '../../services/weathe
   styleUrl: './dashboard.scss'
 })
 export class Dashboard implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   // Dashboard data
   keyMetrics: KeyMetric[] = [];
@@ -21,11 +23,17 @@ export class Dashboard implements OnInit, OnDestroy {
   weatherData: WeatherData | null = null;
   weatherAlerts: WeatherAlert[] = [];
 
+  // Backend summary/public stats
+  totalUsers?: number;
+  avgFarmSize?: number;
+  newThisWeek?: number;
+  avgMonthlyExpenditure?: number;
+
   // UI state
   isLoading = true;
   selectedFarm = 'Green Acres';
   farmOptions = ['Green Acres', 'Sunrise Farm', 'Valley Fields'];
-  currentUser = 'Ethan';
+  currentUser = 'Guest';
   currentLocation = 'Iowa';
 
   // Dashboard sections
@@ -34,12 +42,23 @@ export class Dashboard implements OnInit, OnDestroy {
   farmInfo = `Farm: ${this.selectedFarm} | Crop: Corn | Location: ${this.currentLocation}`;
 
   constructor(
-    private dashboardService: DashboardService,
-    private weatherService: WeatherService
+    private readonly dashboardService: DashboardService,
+    private readonly weatherService: WeatherService,
+    private readonly apiService: ApiService,
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    // Update welcome name dynamically from auth state
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
+        this.currentUser = user?.fullName || 'Guest';
+        this.welcomeMessage = `Welcome back, ${this.currentUser}!`;
+      });
+
     this.loadDashboardData();
+    this.loadBackendSummary();
     this.loadWeatherData();
   }
 
@@ -48,12 +67,117 @@ export class Dashboard implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private loadBackendSummary(): void {
+    // Load summary numbers
+    this.apiService.getSummary()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (summary) => {
+          this.totalUsers = summary.totalUsers;
+          this.newThisWeek = summary.newThisWeek;
+          this.avgFarmSize = summary.avgFarmSize;
+          this.mergeSummaryIntoMetrics();
+        },
+        error: () => {}
+      });
+
+    // Load public stats
+    this.apiService.getPublicStats()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (stats) => {
+          this.avgMonthlyExpenditure = stats.avgMonthlyExpenditure;
+          // Optionally merge into metrics as an extra card if present
+          this.mergePublicStatsIntoMetrics(stats);
+        },
+        error: () => {}
+      });
+  }
+
+  private mergeSummaryIntoMetrics(): void {
+    if (!this.keyMetrics || this.keyMetrics.length === 0) return;
+
+    // Update or append metrics for total users and new users this week
+    const upsert = (id: string, partial: Partial<KeyMetric>) => {
+      const idx = this.keyMetrics.findIndex(m => m.id === id);
+      if (idx >= 0) {
+        this.keyMetrics[idx] = { ...this.keyMetrics[idx], ...partial } as KeyMetric;
+      } else {
+        this.keyMetrics.push({
+          id,
+          title: partial.title || '',
+          value: partial.value as number,
+          unit: partial.unit || '',
+          trend: partial.trend ?? 0,
+          trendDirection: (partial.trendDirection as any) || 'up',
+          icon: partial.icon || 'bi-info-circle',
+          color: partial.color || 'primary',
+          description: partial.description || ''
+        } as KeyMetric);
+      }
+    };
+
+    if (typeof this.totalUsers === 'number') {
+      upsert('total-users', {
+        title: 'Total Users',
+        value: this.totalUsers,
+        unit: '',
+        icon: 'bi-people-fill',
+        color: 'primary',
+        description: 'Users registered in the system'
+      });
+    }
+
+    if (typeof this.newThisWeek === 'number') {
+      upsert('new-users-week', {
+        title: 'New Users (7d)',
+        value: this.newThisWeek,
+        unit: '',
+        icon: 'bi-person-plus-fill',
+        color: 'success',
+        description: 'New registrations this week'
+      });
+    }
+
+    if (typeof this.avgFarmSize === 'number') {
+      upsert('avg-farm-size', {
+        title: 'Avg. Farm Size',
+        value: this.avgFarmSize,
+        unit: 'acres',
+        icon: 'bi-bar-chart',
+        color: 'secondary',
+        description: 'Average farm size across users'
+      });
+    }
+  }
+
+  private mergePublicStatsIntoMetrics(stats: { totalUsers: number; avgFarmSize: number; avgMonthlyExpenditure: number }): void {
+    const idx = this.keyMetrics.findIndex(m => m.id === 'avg-monthly-expenditure');
+    const card: KeyMetric = {
+      id: 'avg-monthly-expenditure',
+      title: 'Avg. Monthly Expenditure',
+      value: stats.avgMonthlyExpenditure,
+      unit: '$',
+      trend: 0,
+      trendDirection: 'up',
+      icon: 'bi-cash-coin',
+      color: 'warning',
+      description: 'Average spend reported by users'
+    };
+    if (idx >= 0) {
+      this.keyMetrics[idx] = { ...this.keyMetrics[idx], ...card };
+    } else {
+      this.keyMetrics.push(card);
+    }
+  }
+
   private loadDashboardData(): void {
     // Load key metrics
     this.dashboardService.getKeyMetrics()
       .pipe(takeUntil(this.destroy$))
       .subscribe(metrics => {
         this.keyMetrics = metrics;
+        this.mergeSummaryIntoMetrics();
         this.isLoading = false;
       });
 
@@ -188,6 +312,7 @@ export class Dashboard implements OnInit, OnDestroy {
   refreshData(): void {
     this.isLoading = true;
     this.loadDashboardData();
+    this.loadBackendSummary();
     this.loadWeatherData();
   }
 }
