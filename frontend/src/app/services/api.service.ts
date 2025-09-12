@@ -79,7 +79,7 @@ export interface UsersResponse {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = (window as any).__API_BASE_URL__ || environment.apiUrl;
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

@@ -40,10 +40,7 @@
               "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
-            ],
-            "scripts": [
-  "https://maps.googleapis.com/maps/api/js?key=AIzaSyAlCM_cCEgxo37p5-_GTbTB_Ce2MGWCZxQ"
-]
+            ]
 
           },
           "configurations": {
